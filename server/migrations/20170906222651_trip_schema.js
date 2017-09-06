@@ -16,12 +16,19 @@ exports.up = function(knex, Promise) {
       table.boolean('payed')
         .defaultTo(false)
         .notNull()
-      table.timestamp('tripdate')
+      table.timestamp('date')
         .defaultTo(knex.fn.now())
         .notNull()
       table.timestamps(true)
     }),
   ])
+  .then((res) => {
+    knex.schema.raw(`
+      CREATE TRIGGER update_customer_modtime
+      BEFORE UPDATE ON trip
+      FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
+    `)
+  })
 
 };
 

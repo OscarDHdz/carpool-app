@@ -13,8 +13,16 @@ exports.up = function(knex, Promise) {
       table.text('token')
         .defaultTo('')
         .notNull()
+      table.timestamps(true)
     }),
   ])
+  then((res) => {
+    knex.schema.raw(`
+      CREATE TRIGGER update_customer_modtime
+      BEFORE UPDATE ON user
+      FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
+    `)
+  })
 
 };
 
