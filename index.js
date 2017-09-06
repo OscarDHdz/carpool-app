@@ -1,6 +1,6 @@
 // Init ------------------------------------------------------------------------
 var express = require('express');
-var knex = require('./KnexDB.js');
+var knex = require('./server/KnexDB.js');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -8,13 +8,19 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware ------------------------------------------------------------------
 app.use(bodyParser.json());
-app.use(require('./middleware/enable-cors')(['GET', 'POST', 'PATCH', 'DELETE'], ['x-auth']));
-app.use(require('./middleware/log'));
+app.use(require('./server/middleware/enable-cors')(['GET', 'POST', 'PATCH', 'DELETE'], ['x-auth']));
+app.use(require('./server/middleware/log'));
 
 
 // Endpoints -------------------------------------------------------------------
-var UserEndpoints = require('./endpoints/User');
+var UserEndpoints = require('./server/endpoints/User');
 app.use('/_api/v1', UserEndpoints);
+var DestinyEndpoints = require('./server/endpoints/Destiny');
+app.use('/_api/v1', DestinyEndpoints);
+
+// AngularApp
+app.use(express.static(__dirname + '/public'));
+
 
 // Validate Dabatabase connection and Start API --------------------------------
 knex.Validate()
