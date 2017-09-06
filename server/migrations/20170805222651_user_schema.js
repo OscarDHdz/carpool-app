@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
       table.text('token')
         .defaultTo('')
         .notNull()
-      table.timestamps(true)
+      table.timestamps(true, true)
     }),
   ])
   then((res) => {

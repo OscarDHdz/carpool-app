@@ -15,11 +15,11 @@ app.use(require('./server/middleware/log'));
 // Endpoints -------------------------------------------------------------------
 var UserEndpoints = require('./server/endpoints/User');
 app.use('/_api/v1', UserEndpoints);
-var DestinyEndpoints = require('./server/endpoints/Destiny');
-app.use('/_api/v1', DestinyEndpoints);
+var TripsEndpoints = require('./server/endpoints/Trip');
+app.use('/_api/v1', TripsEndpoints);
 
 // AngularApp
-app.use(express.static(__dirname + '/public'));
+// app.use(express.static(__dirname + '/public'));
 
 
 // Validate Dabatabase connection and Start API --------------------------------
