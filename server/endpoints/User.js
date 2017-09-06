@@ -3,24 +3,24 @@ var knex = require('../KnexDB.js');
 var _ = require('lodash');
 var router = express.Router();
 
-var {Todo, TABLE_NAME, ALLOWED_PARAMS} = require('../models/Todo');
+var {User, TABLE_NAME, ALLOWED_PARAMS} = require('../models/User');
 
-router.get('/todos', (req, res) => {
+router.get('/users', (req, res) => {
   knex(TABLE_NAME).select('*')
-  .then((todos) => {
-    res.status(200).send({todos})
+  .then((users) => {
+    res.status(200).send({users})
   })
   .catch((err) => {
     res.status(400).send(err);
   })
 })
 
-router.get('/todos/:id', (req, res) => {
+router.get('/users/:id', (req, res) => {
   var id = req.params.id;
   if ( +id ) {
     knex(TABLE_NAME).select('*').where({id})
-    .then((todo) => {
-      if ( todo[0] ) res.status(200).send(todo[0])
+    .then((respnse) => {
+      if ( respnse[0] ) res.status(200).send(respnse[0])
       else res.status(404).send({message: 'Todo Not Found'});
     })
     .catch((err) => {
@@ -32,18 +32,18 @@ router.get('/todos/:id', (req, res) => {
   }
 })
 
-router.post('/todos', (req, res) => {
+router.post('/users', (req, res) => {
 
   var data = _.pick(req.body, ALLOWED_PARAMS);
-  var todo = new Todo(data);
+  var user = new User(data);
 
-  if ( todo.Validate() ) {
+  if ( user.Validate() ) {
 
-    delete todo.id;
+    delete user.id;
 
-    knex(TABLE_NAME).insert(todo).returning('*')
-    .then((insertedTodo) => {
-      res.status(200).send(insertedTodo[0])
+    knex(TABLE_NAME).insert(user).returning('*')
+    .then((insertedData) => {
+      res.status(200).send(insertedData[0])
     })
     .catch((err) => res.status(500).status({error: err}))
   }
@@ -53,15 +53,18 @@ router.post('/todos', (req, res) => {
 
 })
 
-router.patch('/todos/:id', (req, res) => {
+router.patch('/users/:id', (req, res) => {
   var id = req.params.id;
   var data = _.pick(req.body, ALLOWED_PARAMS);
 
+  // Not allowed params
+  delete data.id;
+  delete data.email;
 
   if ( +id ) {
     knex(TABLE_NAME).update(data).where({id}).returning('*')
-    .then((todo) => {
-      if ( todo[0] ) res.status(200).send(todo[0])
+    .then((updatedData) => {
+      if ( updatedData[0] ) res.status(200).send(updatedData[0])
       else res.status(404).send({message: 'Todo Not Found'});
     })
     .catch((err) => {

@@ -2,14 +2,14 @@
 exports.up = function(knex, Promise) {
 
   return Promise.all([
-    knex.schema.createTable('trip', function (table) {
+    knex.schema.createTable('trips', function (table) {
       table.increments('id');
       table.integer('user_id')
         .references('id')
-        .inTable('user')
+        .inTable('users')
       table.integer('destiny_id')
         .references('id')
-        .inTable('destiny')
+        .inTable('destinies')
       table.decimal('cost')
         .defaultTo(0)
         .notNull()
@@ -25,7 +25,7 @@ exports.up = function(knex, Promise) {
   .then((res) => {
     knex.schema.raw(`
       CREATE TRIGGER update_customer_modtime
-      BEFORE UPDATE ON trip
+      BEFORE UPDATE ON trips
       FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
     `)
   })
@@ -34,6 +34,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.raw(`DROP TABLE IF EXISTS trip;`),
+    knex.schema.raw(`DROP TABLE IF EXISTS trips;`),
   ])
 };

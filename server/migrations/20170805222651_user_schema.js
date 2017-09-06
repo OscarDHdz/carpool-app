@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
 
   return Promise.all([
-    knex.schema.createTable('user', function (table) {
+    knex.schema.createTable('users', function (table) {
       table.increments('id')
       table.text('username')
         .defaultTo('')
@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
       table.text('email')
         .defaultTo('')
         .notNull()
+        .unique()
       table.text('token')
         .defaultTo('')
         .notNull()
@@ -19,7 +20,7 @@ exports.up = function(knex, Promise) {
   then((res) => {
     knex.schema.raw(`
       CREATE TRIGGER update_customer_modtime
-      BEFORE UPDATE ON user
+      BEFORE UPDATE ON users
       FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
     `)
   })
