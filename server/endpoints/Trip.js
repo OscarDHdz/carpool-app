@@ -17,28 +17,45 @@ router.get('/trips', (req, res) => {
 
 router.post('/trips', (req, res) => {
 
-  var dataTrips = req.body;
-  var trips = [], promises = [];
-  for (var i = 0; i < dataTrips.length; i++) {
-    trip = new Trip( _.pick(dataTrips[i], ALLOWED_PARAMS));
-    if ( !trip.Validate() ) return res.status(400).send({message: 'Bad Input Data'})
-    delete trip.id
-    trips.push( trip );
-    promises.push( knex(TABLE_NAME).insert(trips[i]).returning('*'))
-  }
+  var data = _.pick(req.body, ['users', 'date', 'cost', 'destiny']);
 
-  Promise.all(promises)
-  .then((responses) => {
-    var trimmedResponses = [];
-    for (var i = 0; i < responses.length; i++) {
-      trimmedResponses.push(responses[i][0]);
+  // Validate users exietance
+  knex.select('username').from('users').whereIn('id', data.users)
+  .then((existingUsers) => {
+    if ( existingUsers.length !== data.users.length ) return res.status(404).send({message: 'A user was not Found', foundUsers: existingUsers})
+
+    // Validate Date/Cost/Destiny
+    if ( !_.isNumber(data.destiny) || !_.isNumber(data.cost) ) return res.status(400).send({message: 'Bad Input Data'})
+
+
+
+    var trips = [], promises = [];
+    for (var i = 0; i < data.users.length; i++) {
+      trips.push(new Trip({
+        cost: data.cost,
+        destiny: data.destiny,
+        date: data.date,
+        user_id: data.users[i]
+      }))
+
+      promises.push( knex(TABLE_NAME).insert(trips[i]).returning('*') )
     }
-    res.status(200).send(trimmedResponses)
+
+    return Promise.all(promises);
+
+  })
+  .then((insertedTrips) => {
+
+    res.status(200).send(insertedTrips);
   })
   .catch((err) => {
     console.log(err);
-    res.status(404).send(err)
+    res.status(500).send({message: err})
   })
+
+
+
+
 
 
 })

@@ -37,19 +37,21 @@ router.post('/users', (req, res) => {
   var data = _.pick(req.body, ALLOWED_PARAMS);
   var user = new User(data);
 
-  if ( user.Validate() ) {
 
+  if ( user.Validate() ) {
     delete user.id;
 
     knex(TABLE_NAME).insert(user).returning('*')
     .then((insertedData) => {
       res.status(200).send(insertedData[0])
     })
-    .catch((err) => res.status(500).status({error: err}))
+    .catch((err) => {
+      return res.status(400).send({message: 'Existing email'});
+    })
   }
-  else res.status(400).send({message: 'Bad Input Data'})
+  else return res.status(400).send({message: 'Bad Input Data'})
 
-
+  console.log(4);
 
 })
 
