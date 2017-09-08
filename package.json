@@ -19,5 +19,9 @@
     "lodash": "^4.17.4",
     "nodemon": "^1.11.0",
     "pg": "^7.1.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1"
   }
 }
