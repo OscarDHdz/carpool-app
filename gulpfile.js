@@ -8,7 +8,15 @@ gulp.task('serve', function() {
         },
         port: 8080
     });
+
+     gulp.watch("public/**/**.**", ['reload']);
 });
+
+gulp.task('reload', function (done) {
+    browserSync.reload();
+    done();
+});
+
 
 gulp.task('default', function () {
   console.log('Hello world!');
