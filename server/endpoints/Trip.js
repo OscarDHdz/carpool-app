@@ -2,15 +2,30 @@ var express = require('express');
 var knex = require('../KnexDB.js');
 var _ = require('lodash');
 var router = express.Router();
+var moment = require('moment');
 
 var {Trip, TABLE_NAME, ALLOWED_PARAMS} = require('../models/Trip');
 
+var DESTINIES = ['Trabajo', 'Casa']
+
 router.get('/trips', (req, res) => {
-  knex(TABLE_NAME).select('*')
+
+  $scope = { users: null, trips: null }
+
+  // Get only trips from last month
+  var todayDate = moment().format('YYYY-MM-DD');
+  var monthAgoDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
+
+  knex(TABLE_NAME).select('*').where('date', '>=', monthAgoDate).andWhere('date', '<=', todayDate)
   .then((trips) => {
-    res.status(200).send({trips})
+    $scope.trips = trips;
+    return knex('users').select('*');
+  })
+  .then((users) => {
+    res.status(200).send({trips: FormatTripsAndSetUsers($scope.trips, users)})
   })
   .catch((err) => {
+    console.log(err);
     res.status(400).send(err);
   })
 })
@@ -68,7 +83,6 @@ router.post('/trips', (req, res) => {
 
 })
 
-
 router.get('/trips/:id', (req, res) => {
   var id = req.params.id;
   if ( +id ) {
@@ -85,7 +99,6 @@ router.get('/trips/:id', (req, res) => {
     res.status(400).send({message: 'Invalid Id'})
   }
 })
-
 
 router.patch('/trips/:id', (req, res) => {
   var id = req.params.id;
@@ -108,5 +121,31 @@ router.patch('/trips/:id', (req, res) => {
     res.status(400).send({message: 'Invalid Id'})
   }
 })
+
+function FormatTripsAndSetUsers( trips, users ) {
+
+  // Format Users by id
+  var usersAsIdHash = {};
+  for (var i = 0; i < users.length; i++) {
+    usersAsIdHash[users[i].id] = users[i];
+  }
+
+  var formattedTrips = {};
+  var tripDate, stringTripDate;
+  for (var i = 0; i < trips.length; i++) {
+    tripDate = trips[i].date;
+    stringTripDate = tripDate.getUTCFullYear() + '-' + ('0' + (tripDate.getMonth() + 1)).slice(-2) + '-' + ('0' + tripDate.getUTCDate()).slice(-2);
+    // Set Tree Properties
+    if ( !formattedTrips[stringTripDate] ) formattedTrips[stringTripDate] = {};
+    if ( !formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]]  ) formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]]  = { cost: 0, travelers: [] };
+    // Set Trip User
+    trips[i].user = usersAsIdHash[trips[i].user_id]
+    formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]].travelers.push(trips[i]);
+    formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]].cost = trips[i].cost;
+  }
+
+  return formattedTrips;
+
+}
 
 module.exports = router;
