@@ -11,13 +11,11 @@
 
   <app-navbar></app-navbar>
 
-  <!-- <div class="container">
-    <h1>NG View:</h1>
+  <div class="container content-margin">
     <div ng-view></div>
+  </div>
 
-  </div> -->
 
-  <h1>Hello World</h1>
 
 
 
@@ -39,17 +37,26 @@
   <!--  Boostras UI -->
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.js" charset="utf-8"></script>
 
+  <!--  Custom CSS -->
+  <link rel="stylesheet" href="assets/css/app.css">
+
   <!--  Angular Main -->
   <script src="app/app.js" charset="utf-8"></script>
   <script src="app/main.controller.js" charset="utf-8"></script>
 
   <!--  Toolbar Component -->
   <script src="app/shared/navbar/navbar.component.js" charset="utf-8"></script>
+  <!--  Weekly Component -->
+  <script src="app/shared/weekly/weekly.component.js" charset="utf-8"></script>
+
 
   <!--  Carpool Module -->
-  <!-- <script src="app/carpool/carpool.module.js" charset="utf-8"></script> -->
-  <!-- <script src="app/carpool/router.js" charset="utf-8"></script> -->
-  <!-- <script src="app/carpool/home/home.controller.js" charset="utf-8"></script> -->
+  <script src="app/carpool/carpool.module.js" charset="utf-8"></script>
+  <script src="app/carpool/router.js" charset="utf-8"></script>
+
+  <!--  Carpool.Home -->
+  <script src="app/carpool/home/home.controller.js" charset="utf-8"></script>
+
 
 
 </html>
