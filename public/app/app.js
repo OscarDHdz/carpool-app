@@ -7,7 +7,7 @@
 
     'ui.bootstrap',
 
-    'app.toolbar'
+    'app.navbar'
 
   ])
 

@@ -9,20 +9,32 @@
 </head>
 <body ng-controller="mainController as vm">
 
-  <div ng-controller="toolbarController as tb"></div>
+  <div ng-controller="navbarController as vm" app-navbar></div>
 
+  <div class="container">
+    <h1>NG View:</h1>
+    <div ng-view></div>
 
-  <h1>Hello World</h1>
+  </div>
+
 
 
 
 </body>
 
-  <!--  Dependencies -->
+  <!--  Angular Dependencies -->
   <script src="assets/libs/angular/angular.js"></script>
   <script src="assets/libs/angular-animate/angular-animate.js" charset="utf-8"></script>
   <script src="assets/libs/angular-touch/angular-touch.js" charset="utf-8"></script>
+  <script src="assets/libs/angular-route/angular-route.min.js" charset="utf-8"></script>
+  <!-- Jquery  -->
+  <script src="assets/libs/jquery/dist/jquery.min.js" charset="utf-8"></script>
+  <!--  Popper -->
+  <script src="assets/libs/popper.js/dist/umd/popper.min.js" charset="utf-8"></script>
+  <!--  Bootstrap 4 -->
   <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.css">
+  <script src="assets/libs/bootstrap/dist/js/bootstrap.js" charset="utf-8"></script>
+  <!--  Boostras UI -->
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.js" charset="utf-8"></script>
 
   <!--  Modules -->
@@ -30,7 +42,7 @@
   <script src="app/main.controller.js" charset="utf-8"></script>
 
   <!--  Toolbar -->
-  <script src="app/shared/toolbar/toolbar.module.js" charset="utf-8"></script>
-  <script src="app/shared/toolbar/toolbar.controller.js" charset="utf-8"></script>
+  <script src="app/shared/navbar/navbar.module.js" charset="utf-8"></script>
+  <script src="app/shared/navbar/navbar.controller.js" charset="utf-8"></script>
 
 </html>
