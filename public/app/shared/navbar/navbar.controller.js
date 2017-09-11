@@ -2,9 +2,10 @@
   'use_strict';
 
   angular.module('app')
-    .controller('navbarController', [navbarController]);
+  .controller('navbarController', [navbarController]);
 
   function navbarController() {
+
     var vm = this;
 
     vm.message = 'Hello from controller';

@@ -4,10 +4,12 @@
   angular.module('app', [
     'ngAnimate',
     'ngTouch',
-
+    // 'ngRoute',
     'ui.bootstrap',
 
-    'app.navbar'
+
+    // 'app.carpool'
+
 
   ])
 
