@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="app" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Carpool</title>
-
-
 </head>
-<body>
+<body ng-controller="mainController as vm">
+
+  <div ng-controller="toolbarController as tb"></div>
+
 
   <h1>Hello World</h1>
+
+
 
 </body>
 
@@ -23,5 +25,12 @@
   <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.css">
   <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.js" charset="utf-8"></script>
 
+  <!--  Modules -->
+  <script src="app/app.js" charset="utf-8"></script>
+  <script src="app/main.controller.js" charset="utf-8"></script>
+
+  <!--  Toolbar -->
+  <script src="app/shared/toolbar/toolbar.module.js" charset="utf-8"></script>
+  <script src="app/shared/toolbar/toolbar.controller.js" charset="utf-8"></script>
 
 </html>
