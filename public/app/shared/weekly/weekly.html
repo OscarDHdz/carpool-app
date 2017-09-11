@@ -44,6 +44,7 @@
     height: 2vw;
     left: 0.5vw;
     top: 0.4vw;
+    font-size: 1.4vw;
 
 
   }
@@ -51,84 +52,33 @@
 
 </style>
 
+<div >
+  <table class="week">
+    <thead>
+      <tr>
+        <th class="week-header" ng-repeat="day in vm.week">{{ day.title }}<br>{{ day.date }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
 
-<table class="week">
-  <thead>
-    <tr>
-      <th class="week-header">Sunday</th>
-      <th class="week-header">Monday</th>
-      <th class="week-header">Tuesday</th>
-      <th class="week-header">Wednesday</th>
-      <th class="week-header">Thursday</th>
-      <th class="week-header">Friday</th>
-      <th class="week-header">Saturday</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="week-day">
-        <div class="day-data">
-          <div class="day-data-title">
-            <h6>Trabajo</h6>
-          </div>
-          <div class="day-data-description">
-            <div class="persona">
-              <span>OH</span>
+        <td class="week-day" ng-repeat="day in vm.week">
+          <div class="day-data" ng-repeat="(tripTitle, tripData) in vm.trips[day.date]">
+            <div class="day-data-title">
+              <h6>{{tripTitle}} <small>${{tripData.cost}}</small></h6>
             </div>
-
-            <div class="persona">
-              <span>BR</span>
+            <div class="day-data-description">
+              <div class="persona" ng-repeat="traveler in tripData.travelers">
+                <span>{{traveler.id}}</span>
+              </div>
             </div>
-
-            <div class="persona">
-              <span>AS</span>
-            </div>
-
-            <div class="persona">
-              <span>BH</span>
-            </div>
+            <div style="clear: both;"></div>
 
 
           </div>
-          <div style="clear: both;"></div>
+        </td>
 
-
-        </div>
-        <div class="day-data">
-          <div class="day-data-title">
-            <h6>Trabajo</h6>
-          </div>
-          <div class="day-data-description">
-            
-            <div class="persona">
-              <span>OH</span>
-            </div>
-
-            <div class="persona">
-              <span>BR</span>
-            </div>
-
-            <div class="persona">
-              <span>AS</span>
-            </div>
-
-            <div class="persona">
-              <span>BH</span>
-            </div>
-
-
-          </div>
-          <div style="clear: both;"></div>
-
-
-        </div>
-      </td>
-      <td class="week-day"></td>
-      <td class="week-day"></td>
-      <td class="week-day"></td>
-      <td class="week-day"></td>
-      <td class="week-day"></td>
-      <td class="week-day"></td>
-    </tr>
-  </tbody>
-</table>
+      </tr>
+    </tbody>
+  </table>
+</div>

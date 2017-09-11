@@ -38,6 +38,8 @@ router.post('/trips', (req, res) => {
         user_id: data.users[i]
       }))
 
+      delete trips[i].id;
+
       promises.push( knex(TABLE_NAME).insert(trips[i]).returning('*') )
     }
 
@@ -46,7 +48,13 @@ router.post('/trips', (req, res) => {
   })
   .then((insertedTrips) => {
 
-    res.status(200).send(insertedTrips);
+    var parsedTrips = [];
+
+    for (var i = 0; i < insertedTrips.length; i++) {
+      parsedTrips.push(insertedTrips[i][0]);
+    }
+
+    res.status(200).send(parsedTrips);
   })
   .catch((err) => {
     console.log(err);
