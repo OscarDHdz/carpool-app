@@ -69,7 +69,7 @@
             </div>
             <div class="day-data-description">
               <div class="persona" ng-repeat="traveler in tripData.travelers">
-                <span>{{traveler.id}}</span>
+                <span>{{traveler.user.firstname[0] + traveler.user.lastname[0]}}</span>
               </div>
             </div>
             <div style="clear: both;"></div>

@@ -2,68 +2,30 @@
   'use_strict';
 
   angular.module('app')
-  .factory('tripsService', ['$q', function ($q) {
+  .factory('tripsService', ['$q', 'resourceService', function ($q, resourceService) {
 
     var data = {
-      trips: {
-        "2017-09-11": {
-          "Trabajo": {
-            cost: "85",
-            travelers: [
-              {
-                  "id": 8,
-                  "user_id": 1,
-                  "destiny": 0,
-                  "cost": "75.00",
-                  "payed": false,
-                  "date": "2017-09-11T00:00:00.000Z",
-                  "created_at": "2017-09-11T17:38:28.585Z",
-                  "updated_at": "2017-09-11T17:38:28.585Z"
-              },
-              {
-                  "id": 9,
-                  "user_id": 2,
-                  "destiny": 0,
-                  "cost": "75.00",
-                  "payed": false,
-                  "date": "2017-09-11T00:00:00.000Z",
-                  "created_at": "2017-09-11T17:38:28.586Z",
-                  "updated_at": "2017-09-11T17:38:28.586Z"
-              }
-            ]
-          },
-          "Casa": {
-            cost: "50",
-            travelers: [
-              {
-                  "id": 8,
-                  "user_id": 1,
-                  "destiny": 0,
-                  "cost": "75.00",
-                  "payed": false,
-                  "date": "2017-09-11T00:00:00.000Z",
-                  "created_at": "2017-09-11T17:38:28.585Z",
-                  "updated_at": "2017-09-11T17:38:28.585Z"
-              },
-            ]
-          }
-        }
-
-
-      }
+      trips: {}
     }
 
-    var getCurrentWeekTrips = function () {
+    var getTrips = function () {
       var deferred = $q.defer();
+      var resource = resourceService.getItems('trips');
 
-      deferred.resolve(data.trips);
+      resource.get({},function ( data ) {
+        console.log('HERE0', data);
+        deferred.resolve(data.trips);
+      }, function (err) {
+        deferred.reject(err);
+      })
+
 
 
       return deferred.promise;
     }
 
     return {
-      getCurrentWeekTrips: getCurrentWeekTrips,
+      getTrips: getTrips,
       data: data,
     }
 

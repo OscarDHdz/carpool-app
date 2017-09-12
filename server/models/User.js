@@ -1,6 +1,6 @@
 var _ = require('lodash');
 const TABLE_NAME = 'users';
-const ALLOWED_PARAMS = ['username', 'email'];
+const ALLOWED_PARAMS = ['username', 'firstname', 'lastname','email'];
 
 class User {
 
@@ -9,6 +9,8 @@ class User {
     this.username = '';
     this.email = '';
     this.token = '';
+    this.firstname = '';
+    this.lastname = '';
 
     if ( data ) {
       for (var key in data) {
@@ -21,6 +23,8 @@ class User {
   Validate( ) {
 
     if ( !_.isString(this.username) || this.username.length === 0) return false;
+    if ( !_.isString(this.firstname) || this.firstname.length === 0) return false;
+    if ( !_.isString(this.lastname) || this.lastname.length === 0) return false;
     if ( !_.isString(this.email) || this.email.length === 0) return false;
 
     return true;

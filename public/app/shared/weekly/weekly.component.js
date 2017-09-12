@@ -15,6 +15,15 @@
       console.log(vm.trips);
       console.log(vm.baseDate);
       GetWeekDays(vm.baseDate);
+
+      tripsService.getTrips()
+      .then(function ( trips ) {
+        console.log('HERE', trips);
+        vm.trips = trips;
+      })
+      .catch(function ( err ) {
+        console.error(err);
+      })
     }
 
     function SetWeekRange( date ) {
@@ -27,9 +36,10 @@
       var baseDayOfWeek = date.getDay();
       localDate.setDate( localDate.getDate() - baseDayOfWeek );
 
+
       for (var i = 0; i < 7; i++) {
         // Date with: yyyy-mm-dd format
-        var stringDate = localDate.getUTCFullYear() + '-' + ('0' + (localDate.getMonth() + 1)).slice(-2) + '-' + ('0' + localDate.getUTCDate()).slice(-2);
+        var stringDate = localDate.getUTCFullYear() + '-' + ('0' + (localDate.getMonth() + 1)).slice(-2) + '-' + ('0' + localDate.getDate()).slice(-2);
         vm.week[i] = {
           title: localDate.toString().split(' ')[0],
           date: stringDate,

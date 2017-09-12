@@ -51,7 +51,6 @@ router.post('/users', (req, res) => {
   }
   else return res.status(400).send({message: 'Bad Input Data'})
 
-  console.log(4);
 
 })
 
