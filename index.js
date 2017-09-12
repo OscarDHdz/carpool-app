@@ -19,9 +19,9 @@ var TripsEndpoints = require('./server/endpoints/Trip');
 app.use('/_api/v1', TripsEndpoints);
 
 // AngularApp
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 // Bowe Components
-app.use(express.static(__dirname + '/bower_components'));
+//app.use(express.static(__dirname + '/bower_components'));
 
 // Validate Dabatabase connection and Start API --------------------------------
 knex.Validate()

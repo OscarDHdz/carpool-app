@@ -1,6 +1,17 @@
 <div ng-controller="homeController as vm">
 
-  <h1>Home</h1>
-  <weekly-component></weekly-component>
+  <h1>Carpool Dashboard</h1>
+  <div style="margin-top: 20px;">
+    <h3>This week</h3>
+    <hr>
+    <app-loading ng-if="!vm.tripsReady"></app-loading>
+    <rowcalendar-component trips="vm.thisWeekTrips" ng-if="vm.tripsReady"></rowcalendar-component>
+  </div>
+  <div style="margin-top: 20px;">
+    <h3>Last week</h3>
+    <hr>
+    <rowcalendar-component trips="vm.lastWeekTrips" ></rowcalendar-component>
+  </div>
+
 
 </div>
