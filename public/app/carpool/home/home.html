@@ -6,6 +6,10 @@
     <hr>
     <app-loading ng-if="!vm.tripsReady"></app-loading>
     <rowcalendar-component trips="vm.thisWeekTrips" ng-if="vm.tripsReady"></rowcalendar-component>
+    <div style="margin-top: 20px;">
+      <expenses-component expenses="vm.thisWeekExpenses"></expenses-component>
+    </div>
+
   </div>
   <div style="margin-top: 20px;">
     <h3>Last week</h3>

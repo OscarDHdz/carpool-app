@@ -22,8 +22,19 @@ router.get('/trips', (req, res) => {
     return knex('users').select('*');
   })
   .then((users) => {
-    res.status(200).send({trips: FormatTripsAndSetUsers($scope.trips, users)})
+    $scope.users = users;
+
+    $scope.trips = FormatTripsAndSetUsers($scope.trips, users);
+    // return knex.raw(`
+    //   SELECT DISTINCT (date), destiny, cost, COUNT(*) as travelers
+    //   FROM trips GROUP BY date, destiny, cost
+    //   WHERE date >= ${monthAgoDate} and date <= ${todayDate};`)
+    return res.status(200).send($scope)
   })
+  // .then((expenses) => {
+  //   $scope.expenses = expenses.rows;
+  //   return res.status(200).send($scope)
+  // })
   .catch((err) => {
     console.log(err);
     res.status(400).send(err);
@@ -35,6 +46,7 @@ router.post('/trips', (req, res) => {
   var data = _.pick(req.body, ['users', 'date', 'cost', 'destiny']);
 
   // Validate users exietance
+  $scope = {};
   knex.select('username').from('users').whereIn('id', data.users)
   .then((existingUsers) => {
     if ( existingUsers.length !== data.users.length ) return res.status(404).send({message: 'A user was not Found', foundUsers: existingUsers})
@@ -68,7 +80,6 @@ router.post('/trips', (req, res) => {
     for (var i = 0; i < insertedTrips.length; i++) {
       parsedTrips.push(insertedTrips[i][0]);
     }
-
     res.status(200).send(parsedTrips);
   })
   .catch((err) => {

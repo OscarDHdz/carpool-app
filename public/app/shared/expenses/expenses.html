@@ -1,0 +1,25 @@
+<style media="screen">
+  .persona-expense {
+    margin-left: 10px;
+  }
+  .persona-expense h5 {
+    line-height: 3vw;
+  }
+</style>
+<h3>Expenses</h3>
+<div ng-repeat="(email, account) in vm.expenses">
+
+  <div class="row">
+    <div class="persona" style="background-color: {{account.color}};">
+      <span>{{account.firstname[0] + account.lastname[0]}}</span>
+    </div>
+    <div class="persona-expense">
+      <h5>{{ account.firstname }} {{ account.lastname[0] }}. <small>owes</small> ${{ account.owes }}</h5>
+    </div>
+  </div>
+
+
+</div>
+<pre>
+  {{ vm.expenses | json }}
+</pre>

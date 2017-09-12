@@ -7,7 +7,10 @@
   function homeController( tripsService ) {
     var vm = this;
     vm.trips = {};
+    vm.expenses = [];
+    vm.users = []
     vm.thisWeekTrips = {}
+    vm.thisWeekExpenses = {}
     vm.lastWeekTrips = {}
     vm.tripsReady = false;
 
@@ -17,18 +20,21 @@
     function init() {
       console.log('homeController loaded');
 
-      tripsService.getTrips()
-      .then(function ( trips ) {
-        vm.trips = trips;
+      tripsService.getTripsData()
+      .then(function ( data ) {
+        vm.trips = data.trips;
+        vm.users = data.users;
         // Set This Week Trips
         var currentDate = new Date();
         var currentWeekWeekDays = GetWeekDays(currentDate);
         vm.thisWeekTrips = WeekTrips(currentWeekWeekDays);
+        vm.thisWeekExpenses = GetUserExpenses(vm.thisWeekTrips, vm.users);
         // Last week Trips
         currentDate.setDate(currentDate.getDate()-7);
         var lastWeekDate = currentDate;
         var lastWeekWeekDays = GetWeekDays(lastWeekDate)
         vm.lastWeekTrips = WeekTrips(lastWeekWeekDays);
+        // Format
 
         vm.tripsReady = true;
       })
@@ -66,6 +72,34 @@
         trips[weekdays[i]] = vm.trips[weekdays[i]];
       }
       return trips;
+    }
+    function GetUserExpenses( days, users ) {
+
+      var expensesByUsers = {};
+      for (var i = 0; i < users.length; i++) {
+        expensesByUsers[users[i].email] = {
+          firstname: users[i].firstname,
+          lastname: users[i].lastname,
+          owes: 0,
+          color: users[i].color
+        }
+      }
+
+      for (var day in days) {
+        var dayData = days[day];
+        for (var trip in dayData) {
+          var tripData = dayData[trip];
+
+          var tripCost = tripData.cost;
+          var splittedCost = Math.round( tripCost / tripData.travelers.length );
+          for (var i = 0; i < tripData.travelers.length; i++) {
+            expensesByUsers[tripData.travelers[i].user.email].owes += splittedCost;
+          }
+        }
+      }
+
+      return expensesByUsers;
+
     }
 
     init();

@@ -8,16 +8,16 @@
       trips: {}
     }
 
-    var getTrips = function (  ) {
+    var getTripsData = function (  ) {
       var deferred = $q.defer();
 
       if ( Object.keys(data.trips).length > 0 ) deferred.resolve(data.trips);
       else {
         var resource = resourceService.getItems('trips');
         resource.get({},function ( response ) {
-          console.log('Retrived trips:', response.trips);
+          console.log('Retrived trips data:', response);
           data.trips = response.trips;
-          deferred.resolve(response.trips);
+          deferred.resolve(response);
         }, function (err) {
           deferred.reject(err);
         })
@@ -29,7 +29,7 @@
     }
 
     return {
-      getTrips: getTrips,
+      getTripsData: getTripsData,
       data: data,
     }
 
