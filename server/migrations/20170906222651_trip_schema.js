@@ -22,11 +22,12 @@ exports.up = function(knex, Promise) {
     }),
   ])
   .then((res) => {
-    knex.schema.raw(`
-      CREATE TRIGGER update_customer_modtime
-      BEFORE UPDATE ON trips
-      FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
-    `)
+    if ( process.env.DB_CLIENT !== 'sqlite3' )
+      knex.schema.raw(`
+        CREATE TRIGGER update_customer_modtime
+        BEFORE UPDATE ON trips
+        FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
+      `)
   })
 
 };

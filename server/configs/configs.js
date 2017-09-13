@@ -8,7 +8,8 @@ module.exports = {
     DB_USER: process.env.DB_USER || 'developer',
     DB_PASS: process.env.DB_PASS || 'qwerty',
     DB_NAME: process.env.DB_NAME || 'db_api',
-    DB_CLIENT: 'pg',
+    DB_CLIENT: process.env.DB_CLIENT || 'sqlite3',
+    DB_FILE: 'hola.sqlite'
   }
 
 }

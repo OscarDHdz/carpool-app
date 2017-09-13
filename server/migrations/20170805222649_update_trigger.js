@@ -1,7 +1,10 @@
 
 exports.up = function(knex, Promise) {
 
-  return Promise.all([
+  if ( process.env.DB_CLIENT === 'sqlite3' )
+    return Promise.resolve()
+  else
+    return Promise.all([
     knex.schema.raw(`
       CREATE OR REPLACE FUNCTION update_modified_column()
       RETURNS TRIGGER AS $$
@@ -12,11 +15,13 @@ exports.up = function(knex, Promise) {
       $$ language 'plpgsql';
       `)
   ])
-
 };
 
 exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.raw(`DROP FUNCTION IF EXISTS update_modified_column();`),
-  ])
+  if ( process.env.DB_CLIENT === 'sqlite3' )
+    return Promise.resolve();
+  else
+    return Promise.all([
+      knex.schema.raw(`DROP FUNCTION IF EXISTS update_modified_column();`),
+    ])
 };

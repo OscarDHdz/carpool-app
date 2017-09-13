@@ -18,6 +18,12 @@ router.get('/trips', (req, res) => {
 
   knex(TABLE_NAME).select('*').where('date', '>=', monthAgoDate).andWhere('date', '<=', todayDate)
   .then((trips) => {
+    // Give date format to date attribute
+    if ( process.env.DB_CLIENT === 'sqlite3' ) {
+      for (var i = 0; i < trips.length; i++) {
+        trips[i].date = new Date(trips[i].date);
+      }
+    }
     $scope.trips = trips;
     return knex('users').select('*');
   })
@@ -80,6 +86,7 @@ router.post('/trips', (req, res) => {
     for (var i = 0; i < insertedTrips.length; i++) {
       parsedTrips.push(insertedTrips[i][0]);
     }
+    if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
     res.status(200).send(parsedTrips);
   })
   .catch((err) => {
@@ -121,6 +128,7 @@ router.patch('/trips/:id', (req, res) => {
   if ( +id ) {
     knex(TABLE_NAME).update(data).where({id}).returning('*')
     .then((updatedData) => {
+      if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
       if ( updatedData[0] ) res.status(200).send(updatedData[0])
       else res.status(404).send({message: ' Not Found'});
     })

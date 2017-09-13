@@ -43,9 +43,11 @@ router.post('/users', (req, res) => {
 
     knex(TABLE_NAME).insert(user).returning('*')
     .then((insertedData) => {
+      if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
       res.status(200).send(insertedData[0])
     })
     .catch((err) => {
+      console.log(err);
       return res.status(400).send({message: 'Existing email'});
     })
   }
@@ -65,6 +67,7 @@ router.patch('/users/:id', (req, res) => {
   if ( +id ) {
     knex(TABLE_NAME).update(data).where({id}).returning('*')
     .then((updatedData) => {
+      if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
       if ( updatedData[0] ) res.status(200).send(updatedData[0])
       else res.status(404).send({message: ' Not Found'});
     })

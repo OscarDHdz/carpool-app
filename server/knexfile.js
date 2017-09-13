@@ -7,6 +7,8 @@ var db_user     = process.env.DB_USER   || 'developer';
 var db_password = process.env.DB_PASS   || 'qwerty';
 var db_dbname   = process.env.DB_NAME   || 'db_api';
 
+var db_file     = process.env.DB_FILE   || 'test.sqlite';
+
 module.exports = {
   development: {
     client: db_client,
@@ -14,7 +16,8 @@ module.exports = {
       host : db_host,
       user : db_user,
       password : db_password,
-      database : db_dbname
+      database : db_dbname,
+      filename: './database/' + db_file
     },
     migrations: {
       directory: __dirname + '/migrations'
