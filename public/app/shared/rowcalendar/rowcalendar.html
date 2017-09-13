@@ -11,16 +11,20 @@
   .week-header {
     text-align: center;
     font-weight: bolder;
+    border-bottom: 4px solid #444;
   }
 
   .week-day {
     width: 14%;
     vertical-align: top;
+    border-bottom: none;
+    border-right: none;
 
   }
   .day-data-title {
     border-bottom: 1px solid #ccc;
     margin-bottom: 2px;
+    padding-left: 4px;
   }
   .week-day h6  {
     margin-top: 7px;
@@ -65,9 +69,9 @@
       <tr>
         <td class="week-day" ng-repeat="(day, data) in vm.trips">
           <div class="day-data" ng-repeat="(tripTitle, tripData) in vm.trips[day]">
-            <div class="day-data-title">
-              <h6>{{tripTitle}} <small>${{tripData.cost}}</small></h6>
-            </div>
+            <span class="day-data-title">
+              {{tripTitle}} <small>${{tripData.cost}}</small>
+            </span>
             <div class="day-data-description">
               <div class="persona" ng-repeat="traveler in tripData.travelers" style="background-color: {{traveler.user.color}};">
                 <span>{{traveler.user.firstname[0] + traveler.user.lastname[0]}}</span>

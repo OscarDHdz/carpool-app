@@ -1,25 +1,47 @@
 <style media="screen">
   .persona-expense {
     margin-left: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+  .persona-expense table {
+    width: 100%;
+  }
+  .persona-expense table .persona-icon {
+    width: 25%;
+  }
+  .persona-expense table .persona-name {
+    text-align: left;
+    font-size: 1.8vw;
+  }
+  .persona-expense table .persona-owes {
+    text-align: right;
+    font-size: 1.5vw;
   }
   .persona-expense h5 {
     line-height: 3vw;
   }
 </style>
-<h3>Expenses</h3>
-<div ng-repeat="(email, account) in vm.expenses">
+<h4>Expenses</h4>
 
-  <div class="row">
-    <div class="persona" style="background-color: {{account.color}};">
-      <span>{{account.firstname[0] + account.lastname[0]}}</span>
-    </div>
+<div class="row">
+  <div class="col-xs-12 col-md-4" ng-repeat="(email, account) in vm.expenses">
+
+
     <div class="persona-expense">
-      <h5>{{ account.firstname }} {{ account.lastname[0] }}. <small>owes</small> ${{ account.owes }}</h5>
+      <table>
+        <tr>
+          <td class="persona-icon">
+            <div class="persona" style="background-color: {{account.color}};">
+              <span>{{account.firstname[0] + account.lastname[0]}}</span>
+            </div>
+          </td>
+          <td class="persona-name">{{ account.firstname }} {{ account.lastname[0] }}. </td>
+          <td class="persona-owes">${{ account.owes }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 
 
 </div>
-<pre>
-  {{ vm.expenses | json }}
-</pre>

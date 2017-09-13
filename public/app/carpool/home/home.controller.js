@@ -12,6 +12,7 @@
     vm.thisWeekTrips = {}
     vm.thisWeekExpenses = {}
     vm.lastWeekTrips = {}
+    vm.lastWeekExpenses = {}
     vm.tripsReady = false;
 
 
@@ -34,6 +35,7 @@
         var lastWeekDate = currentDate;
         var lastWeekWeekDays = GetWeekDays(lastWeekDate)
         vm.lastWeekTrips = WeekTrips(lastWeekWeekDays);
+        vm.lastWeekExpenses = GetUserExpenses(vm.lastWeekExpenses, vm.users);
         // Format
 
         vm.tripsReady = true;

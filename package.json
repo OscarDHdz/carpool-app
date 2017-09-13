@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "browser-sync start --server \"public\" --files \"**/**\" --port 8080",
+    "serve": "browser-sync start --server \"public\" --files \"public/**/**\" --port 8080",
     "docker-run-postgres-dm": "docker-machine ssh default docker run --name carpool-pg -p 5432:5432 -v carpool-pg:/var/lib/postgresql/data -e POSTGRES_DB=db_api -e POSTGRES_USER=developer -e POSTGRES_PASSWORD=qwerty -d postgres && docker-machine ssh docker run --name carpool-phppg --link carpool-pg -p 5050:5050 -e DEFAULT_USER=admin -e DEFAULT_PASSWORD=admin -d fenglc/pgadmin4",
     "docker-start-postgres-dm": "docker-machine ssh default docker start carpool-pg carpool-phppg",
     "docker-rm-postgres-dm": "docker-machine ssh default docker rm -f carpool-pg carpool-phppg && docker-machine ssh default docker volume rm -f carpool-pg ",

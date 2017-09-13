@@ -158,5 +158,32 @@ function FormatTripsAndSetUsers( trips, users ) {
   return formattedTrips;
 
 }
+function GetUserExpenses( days, users ) {
 
+  var expensesByUsers = {};
+  for (var i = 0; i < users.length; i++) {
+    expensesByUsers[users[i].email] = {
+      firstname: users[i].firstname,
+      lastname: users[i].lastname,
+      owes: 0,
+      color: users[i].color
+    }
+  }
+
+  for (var day in days) {
+    var dayData = days[day];
+    for (var trip in dayData) {
+      var tripData = dayData[trip];
+
+      var tripCost = tripData.cost;
+      var splittedCost = Math.round( tripCost / tripData.travelers.length );
+      for (var i = 0; i < tripData.travelers.length; i++) {
+        expensesByUsers[tripData.travelers[i].user.email].owes += splittedCost;
+      }
+    }
+  }
+
+  return expensesByUsers;
+
+}
 module.exports = router;
