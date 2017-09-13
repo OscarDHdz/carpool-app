@@ -2,9 +2,9 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('homeController', ['tripsService', homeController]);
+    .controller('homeController', ['usersService', 'tripsService', homeController]);
 
-  function homeController( tripsService ) {
+  function homeController( usersService, tripsService ) {
     var vm = this;
     vm.trips = {};
     vm.expenses = [];
@@ -21,10 +21,14 @@
     function init() {
       console.log('homeController loaded');
 
-      tripsService.getTripsData()
+      usersService.getUsers()
+      .then(function ( data ) {
+        vm.users = data;
+        return tripsService.getTripsData();
+      })
       .then(function ( data ) {
         vm.trips = data.trips;
-        vm.users = data.users;
+        // vm.users = data.users;
         // Set This Week Trips
         var currentDate = new Date();
         var currentWeekWeekDays = GetWeekDays(currentDate);

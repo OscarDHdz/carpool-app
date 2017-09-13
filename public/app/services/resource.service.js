@@ -18,9 +18,16 @@
                     //     '$filter': filter,
                     //     '@target': '\'' + spContext.hostWeb.url + '\''
                     // },
-                    // headers: {
-                    //     'Accept': 'application/json;odata=verbose;'
-                    // }
+                    headers: {
+                        'Accept': 'application/json;odata=verbose;'
+                    }
+                },
+                post: {
+                  method: 'POST',
+                  data: {oscar: 123},
+                  headers: {
+                      'Accept': 'application/json;odata=verbose;'
+                  }
                 }
             });
     }

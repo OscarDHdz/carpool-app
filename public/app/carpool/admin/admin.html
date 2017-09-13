@@ -1,0 +1,78 @@
+<h1>Admin Panel</h1>
+<h3>Users</h3>
+<hr>
+<div class="row">
+  <div class="col-md-8 col-xs-12">
+    <table class="table table-striped" >
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Color</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in vm.users">
+          <td>{{user.firstname}}</td>
+          <td>{{user.email}}</td>
+          <td style="background-color: {{user.color}};"></td>
+          <td style="text-align: center;">
+            <button class="btn btn-outline-primary" type="button" name="button"><i class="mi mi-edit"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4 col-xs-12">
+    <form name="userForm">
+      <h5>New User</h5>
+      <!--  Firstname -->
+      <div class="form-group">
+        <label class="sr-only" for="userFirstname">Firstname</label>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon">Firstname</div>
+          <input name="firstname" required ng-model="vm.newUser.firstname" type="text" class="form-control" id="userFirstname" placeholder="User's firstname">
+        </div>
+      </div>
+      <!--  Lastname -->
+      <div class="form-group">
+        <label class="sr-only" for="userLastname">Lastname</label>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon">Lastname</div>
+          <input name="lastname" required ng-model="vm.newUser.lastname"  type="text" class="form-control" id="userLastname" placeholder="User's lastname">
+        </div>
+      </div>
+      <!--  Username -->
+      <div class="form-group">
+        <label class="sr-only" for="userUsername">Username</label>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon">Username</div>
+          <input name="username" required ng-model="vm.newUser.username" type="text" class="form-control" id="userUsername" placeholder="User's username">
+        </div>
+      </div>
+      <!--  Email -->
+      <div class="form-group">
+        <label class="sr-only" for="userEmail">Email</label>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon">Email</div>
+          <input name="email" required ng-model="vm.newUser.email"  type="email" class="form-control" id="userEmail" placeholder="email@email.com">
+        </div>
+      </div>
+      <!--  Color -->
+      <div class="form-group">
+        <label class="sr-only" for="userColor">Color</label>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon">Color</div>
+          <input name="email" required ng-model="vm.newUser.color"  type="text" class="form-control" id="userColor" placeholder="#000000">
+        </div>
+      </div>
+      <!--  Buttons -->
+      <div class="form-group" style="text-align: right;">
+        <button type="button" name="button" class="btn btn-outline-danger">Clear</button>
+        <button ng-disabled="!userForm.$valid" type="button" ng-click="vm.SubmitUser(vm.newUser)" name="button" class="btn btn-outline-primary">Add</button>
+      </div>
+    </form>
+
+  </div>
+</div>
