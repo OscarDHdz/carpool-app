@@ -9,7 +9,7 @@ module.exports = {
     DB_PASS: process.env.DB_PASS || 'qwerty',
     DB_NAME: process.env.DB_NAME || 'db_api',
     DB_CLIENT: process.env.DB_CLIENT || 'sqlite3',
-    DB_FILE: 'hola.sqlite'
+    DB_FILE: process.env.DB_FILE || 'carpool.sqlite'
   }
 
 }

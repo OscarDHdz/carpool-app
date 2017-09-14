@@ -6,7 +6,7 @@
 
     var REST_URL = 'http://localhost:3000/_api/v1/';
 
-    var getItems = function ( table ) {
+    var getItems = function ( table, item ) {
       return $resource(REST_URL + table, {},
             {
                 get: {
@@ -24,7 +24,13 @@
                 },
                 post: {
                   method: 'POST',
-                  data: {oscar: 123},
+                  headers: {
+                      'Accept': 'application/json;odata=verbose;'
+                  }
+                },
+                patch: {
+                  method: 'PATCH',
+                  url: REST_URL + table + ( item ? '/' + item.id : ''),
                   headers: {
                       'Accept': 'application/json;odata=verbose;'
                   }

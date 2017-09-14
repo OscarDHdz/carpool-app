@@ -2,9 +2,9 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('adminController', ['usersService', 'tripsService', '$uibModal', adminController]);
+    .controller('adminController', ['usersService', 'tripsService', '$uibModal', '$log', adminController]);
 
-  function adminController( usersService, tripsService, $uibModal ) {
+  function adminController( usersService, tripsService, $uibModal, $log ) {
     var vm = this;
     vm.users = [];
     vm.newUser = {
@@ -29,7 +29,7 @@
       })
     }
 
-    vm.OpenUserModal = function () {
+    vm.OpenUserModal = function ( user ) {
       // var parentElem = 'body'
       var modalInstance = $uibModal.open({
         animation: vm.animationsEnabled,
@@ -38,45 +38,31 @@
         templateUrl: 'app/carpool/admin/user/user.modal.html',
         controller: 'userModalController',
         controllerAs: 'vm',
-        size: 'sm',
+        size: 'lg',
+        // bindings: {
+        //   resolve: '<',
+        //   close: '&',
+        //   dismiss: '&'
+        // },
         // appendTo: parentElem,
         resolve: {
-          items: function () {
-            return [];
+          user: function () {
+            return user;
           }
         }
       });
 
-      modalInstance.result.then(function (selectedItem) {
-        $ctrl.selected = selectedItem;
+      modalInstance.result.then(function (user) {
+        console.log('Submitted user:', user);
+        vm.users.push(user);
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
-    }
-    vm.SubmitUser = function ( user ) {
-      usersService.CreateUser( user )
-      .then(function ( data ) {
-        console.log('Submitted User');
-        var submittedUser = new User(user);
-        console.log(submittedUser);
-        vm.users.push(submittedUser)
-        CleanNewUser();
 
-      })
-      .catch(function ( err ) {
-        console.error(err);
-      })
+
     }
 
-    function CleanNewUser() {
-      vm.newUser = {
-        firstname: null,
-        lastname: null,
-        email: null,
-        color: null,
-        username: null
-      }
-    }
+
 
     init();
 

@@ -39,9 +39,24 @@
       return deferred.promise;
     }
 
+    var SaveUser = function ( user ) {
+      var deferred = $q.defer();
+
+        var resource = resourceService.getItems('users', user);
+        resource.patch({}, user, function ( response ) {
+          console.log('Updated user data:', response);
+          deferred.resolve(true);
+        }, function (err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
+
     return {
       getUsers: getUsers,
       CreateUser: CreateUser,
+      SaveUser: SaveUser,
       data: data,
     }
 
