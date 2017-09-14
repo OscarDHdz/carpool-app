@@ -1,46 +1,38 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">{{ vm.newItem ? 'New User' : 'Edit User' }}</h3>
+    <h3 class="modal-title" id="modal-title">{{ vm.newItem ? 'New Trip' : 'Edit Trip' }}</h3>
 </div>
 <div class="modal-body" id="modal-body">
-  <form name="userForm">
-    <!--  Firstname -->
+  <form name="tripForm">
+    <!--  Date -->
     <div class="form-group">
-      <label class="sr-only" for="userFirstname">Firstname</label>
+      <label class="sr-only" for="tripDate">Date</label>
       <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Firstname</div>
-        <input name="firstname" required ng-model="vm.user.firstname" type="text" class="form-control" id="userFirstname" placeholder="User's firstname">
+        <div class="input-group-addon">Date</div>
+        <input name="date" required ng-model="vm.trip.date" type="text" class="form-control" id="tripDate" placeholder="yyyy-mm-dd">
       </div>
     </div>
-    <!--  Lastname -->
+    <!--  Destiny -->
     <div class="form-group">
-      <label class="sr-only" for="userLastname">Lastname</label>
+      <label class="sr-only" for="tripDestiny">Destiny</label>
       <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Lastname</div>
-        <input name="lastname" required ng-model="vm.user.lastname"  type="text" class="form-control" id="userLastname" placeholder="User's lastname">
+        <div class="input-group-addon">Destiny</div>
+        <input name="destiny" required ng-model="vm.trip.destiny"  type="text" class="form-control" id="tripDestiny" placeholder="Work, Home, etc...">
       </div>
     </div>
-    <!--  Username -->
+    <!--  Cost -->
     <div class="form-group">
-      <label class="sr-only" for="userUsername">Username</label>
+      <label class="sr-only" for="tripCost">Cost</label>
       <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Username</div>
-        <input  name="username" required ng-model="vm.user.username" type="text" class="form-control" id="userUsername" placeholder="User's username">
+        <div class="input-group-addon">Cost</div>
+        <input  name="cost" required ng-model="vm.trip.cost" type="number" class="form-control" id="tripCost" placeholder="$0.00">
       </div>
     </div>
-    <!--  Email -->
+    <!--  Users -->
     <div class="form-group">
-      <label class="sr-only" for="userEmail">Email</label>
+      <label class="sr-only" for="tripUsers">Users</label>
       <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Email</div>
-        <input ng-disabled="!vm.newItem" name="email" required ng-model="vm.user.email"  type="email" class="form-control" id="userEmail" placeholder="email@email.com">
-      </div>
-    </div>
-    <!--  Color -->
-    <div class="form-group">
-      <label class="sr-only" for="userColor">Color</label>
-      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Color</div>
-        <input name="email" required ng-model="vm.user.color"  type="text" class="form-control" id="userColor" placeholder="#000000">
+        <div class="input-group-addon">Users</div>
+        <input name="users" required ng-model="vm.trip.users"  type="text" class="form-control" id="tripUsers" placeholder="Some users...">
       </div>
     </div>
   </form>
@@ -50,6 +42,6 @@
   <!--  Buttons -->
   <div class="form-group" style="text-align: right;">
     <button type="button" name="button" class="btn btn-outline-danger" ng-click="vm.CloseModal()">Clear</button>
-    <button ng-disabled="!userForm.$valid" type="button" ng-click="vm.SubmitUser(vm.user)" name="button" class="btn btn-outline-primary">{{ vm.newItem ? 'Create' : 'Save' }}</button>
+    <button ng-disabled="!tripForm.$valid" type="button" ng-click="vm.SubmitTrip(vm.trip)" name="button" class="btn btn-outline-primary">{{ vm.newItem ? 'Create' : 'Save' }}</button>
   </div>
 </div>

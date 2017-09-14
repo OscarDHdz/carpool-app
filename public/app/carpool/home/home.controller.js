@@ -98,7 +98,6 @@
         }
       }
 
-      console.log(days);
       for (var day in days) {
 
         var dayTrips = days[day];
@@ -119,7 +118,6 @@
 
       }
 
-      console.log(expensesByUsers);
 
       return expensesByUsers;
 
