@@ -14,6 +14,7 @@
       color: null,
       username: null
     }
+    vm.adminReady = false;
 
 
 
@@ -23,6 +24,7 @@
       usersService.getUsers()
       .then(function (data) {
         vm.users = data;
+        vm.adminReady = true;
       })
       .catch(function (err) {
         console.error(err);
@@ -39,12 +41,6 @@
         controller: 'userModalController',
         controllerAs: 'vm',
         size: 'lg',
-        // bindings: {
-        //   resolve: '<',
-        //   close: '&',
-        //   dismiss: '&'
-        // },
-        // appendTo: parentElem,
         resolve: {
           user: function () {
             return user;

@@ -6,7 +6,7 @@ var moment = require('moment');
 
 var {Trip, TABLE_NAME, ALLOWED_PARAMS} = require('../models/Trip');
 
-var DESTINIES = ['Trabajo', 'Casa']
+// var DESTINIES = ['Trabajo', 'Casa']
 
 router.get('/trips', (req, res) => {
 
@@ -58,7 +58,7 @@ router.post('/trips', (req, res) => {
     if ( existingUsers.length !== data.users.length ) return res.status(404).send({message: 'A user was not Found', foundUsers: existingUsers})
 
     // Validate Date/Cost/Destiny
-    if ( !_.isNumber(data.destiny) || !_.isNumber(data.cost) ) return res.status(400).send({message: 'Bad Input Data'})
+    if ( !_.isString(data.destiny) || !_.isNumber(data.cost) ) return res.status(400).send({message: 'Bad Input Data'})
 
 
 
@@ -156,11 +156,11 @@ function FormatTripsAndSetUsers( trips, users ) {
     stringTripDate = tripDate.getUTCFullYear() + '-' + ('0' + (tripDate.getMonth() + 1)).slice(-2) + '-' + ('0' + tripDate.getUTCDate()).slice(-2);
     // Set Tree Properties
     if ( !formattedTrips[stringTripDate] ) formattedTrips[stringTripDate] = {};
-    if ( !formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]]  ) formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]]  = { cost: 0, travelers: [] };
+    if ( !formattedTrips[stringTripDate][trips[i].destiny]  ) formattedTrips[stringTripDate][trips[i].destiny]  = { cost: 0, travelers: [] };
     // Set Trip User
     trips[i].user = usersAsIdHash[trips[i].user_id]
-    formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]].travelers.push(trips[i]);
-    formattedTrips[stringTripDate][DESTINIES[trips[i].destiny]].cost = trips[i].cost;
+    formattedTrips[stringTripDate][trips[i].destiny].travelers.push(trips[i]);
+    formattedTrips[stringTripDate][trips[i].destiny].cost = trips[i].cost;
   }
 
   return formattedTrips;
