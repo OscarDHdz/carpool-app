@@ -5,23 +5,26 @@
   <table class="week">
     <thead>
       <tr>
-        <th class="week-header" ng-repeat="(day, data) in vm.trips">{{ day | weekDayString  }}<br>{{ day }}</th>
+        <th class="week-header" ng-repeat="(day, trips) in vm.trips">{{ day | weekDayString  }}<br>{{ day }}</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="week-day" ng-repeat="(day, data) in vm.trips">
-          <div class="day-data" ng-repeat="(tripTitle, tripData) in vm.trips[day]">
+        <td class="week-day" ng-repeat="(day, trips) in vm.trips">
+
+          <div class="day-data" ng-repeat="trip in trips">
             <span class="day-data-title">
-              {{tripTitle}} <small>${{tripData.cost}}</small>
+              {{trip.destiny}} <small>${{trip.cost}}</small>
             </span>
             <div class="day-data-description">
-              <div class="persona" ng-repeat="traveler in tripData.travelers" style="background-color: {{traveler.user.color}};">
-                <span>{{traveler.user.firstname[0] + traveler.user.lastname[0]}}</span>
+              <div class="persona" ng-repeat="traveler in trip.users_obj" style="background-color: {{traveler.color}};">
+                <span>{{traveler.firstname[0] + traveler.lastname[0]}}</span>
               </div>
             </div>
             <div style="clear: both;"></div>
           </div>
+
+
         </td>
 
       </tr>
