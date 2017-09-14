@@ -5,8 +5,45 @@
   }
 </style>
 <h1>Admin Panel</h1>
-<!--  Users -->
+<!--  Trips -->
 <div class="row" >
+  <div class="col-xs-12 col-md-12">
+    <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenTripModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
+    <h3>Trips</h3>
+    <hr>
+  </div>
+  <div class="col-xs-12 col-md-12">
+    <table class="people table table-striped" >
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Destiny</th>
+          <th>Cost</th>
+          <th>People</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr ng-repeat="trip in vm.trips">
+          <td>{{ trip.date | date }}</td>
+          <td>{{ trip.destiny }}</td>
+          <td>${{ trip.cost }}</td>
+          <td >
+            <div class="persona" ng-repeat="traveler in trip.users_obj" style="background-color: {{traveler.color}};">
+              <span>{{traveler.firstname[0] + traveler.lastname[0]}}</span>
+            </div>
+          </td>
+          <td>
+            <button ng-click="vm.OpenUserModal(trip)" class="btn btn-outline-primary" type="button" name="button"><i class="mi mi-edit"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <app-loading ng-if="!vm.adminReady"></app-loading>
+  </div>
+</div>
+<!--  Users -->
+<div class="row content-margin" >
   <div class="col-xs-12 col-md-12">
     <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenUserModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
     <h3>Users</h3>
@@ -30,29 +67,6 @@
           <td style="text-align: center;">
             <button ng-click="vm.OpenUserModal(user)" class="btn btn-outline-primary" type="button" name="button"><i class="mi mi-edit"></i></button>
           </td>
-        </tr>
-      </tbody>
-    </table>
-    <app-loading ng-if="!vm.adminReady"></app-loading>
-  </div>
-</div>
-<!--  Trips -->
-<div class="row" >
-  <div class="col-xs-12 col-md-12">
-    <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenUserModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
-    <h3>Trips</h3>
-    <hr>
-  </div>
-  <div class="col-xs-12 col-md-12">
-    <table class="people table table-striped" >
-      <thead>
-        <tr>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr >
-          <td> Dummy </td>
         </tr>
       </tbody>
     </table>

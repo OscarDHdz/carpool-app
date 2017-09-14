@@ -1,3 +1,83 @@
 .content-margin {
-  margin-top: 20px; 
+  margin-top: 20px;
+}
+
+/* People */
+.week {
+  width: 100%;
+}
+
+.week-header,
+.week-day {
+  border: 1px solid #ccc;
+}
+
+.week-header {
+  text-align: center;
+  font-weight: bolder;
+  border-bottom: 4px solid #444;
+}
+
+.week-day {
+  width: 14%;
+  vertical-align: top;
+  border-bottom: none;
+  border-right: none;
+
+}
+.day-data-title {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 2px;
+  padding-left: 4px;
+}
+.week-day h6  {
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
+.persona {
+  border-radius:  100%;
+  background-color: #ccc;
+  width: 3vw;
+  height: 3vw;
+  text-align: center;
+  position: relative;
+  float: left;
+  margin-left: 3px;
+  margin-top: 3px;
+}
+.persona span {
+  position: absolute;
+  text-align: center;
+  width: 2vw;
+  height: 2vw;
+  left: 0.5vw;
+  top: 0.4vw;
+  font-size: 1.4vw;
+  color: #fefefe;
+
+
+}
+/* Expenses */
+.persona-expense {
+  margin-left: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.persona-expense table {
+  width: 100%;
+}
+.persona-expense table .persona-icon {
+  width: 25%;
+}
+.persona-expense table .persona-name {
+  text-align: left;
+  font-size: 1.8vw;
+}
+.persona-expense table .persona-owes {
+  text-align: right;
+  font-size: 1.8vw;
+}
+.persona-expense h5 {
+  line-height: 3vw;
 }

@@ -17,7 +17,7 @@
         resource.get({},function ( response ) {
           console.log('Retrived trips data:', response);
           data.trips = response.trips;
-          deferred.resolve(response);
+          deferred.resolve(data.trips);
         }, function (err) {
           deferred.reject(err);
         })

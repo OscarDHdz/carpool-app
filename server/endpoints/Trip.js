@@ -35,7 +35,7 @@ router.get('/trips', (req, res) => {
     //   SELECT DISTINCT (date), destiny, cost, COUNT(*) as travelers
     //   FROM trips GROUP BY date, destiny, cost
     //   WHERE date >= ${monthAgoDate} and date <= ${todayDate};`)
-    return res.status(200).send($scope)
+    return res.status(200).send({trips: $scope.trips})
   })
   // .then((expenses) => {
   //   $scope.expenses = expenses.rows;
@@ -56,38 +56,22 @@ router.post('/trips', (req, res) => {
   knex.select('username').from('users').whereIn('id', data.users)
   .then((existingUsers) => {
     if ( existingUsers.length !== data.users.length ) return res.status(404).send({message: 'A user was not Found', foundUsers: existingUsers})
+    $scope.users = existingUsers;
 
     // Validate Date/Cost/Destiny
-    if ( !_.isString(data.destiny) || !_.isNumber(data.cost) ) return res.status(400).send({message: 'Bad Input Data'})
-
-
-
-    var trips = [], promises = [];
-    for (var i = 0; i < data.users.length; i++) {
-      trips.push(new Trip({
-        cost: data.cost,
-        destiny: data.destiny,
-        date: data.date,
-        user_id: data.users[i]
-      }))
-
-      delete trips[i].id;
-
-      promises.push( knex(TABLE_NAME).insert(trips[i]).returning('*') )
-    }
-
-    return Promise.all(promises);
-
+    var trip = new Trip(data);
+    if ( !trip.Validate() ) return res.status(400).send({message: 'Bad Input Data'})
+    // Knex arry format
+    trip.users = JSON.stringify(trip.users);
+    delete trip.id;
+    return knex(TABLE_NAME).insert(trip).returning('*');
   })
-  .then((insertedTrips) => {
+  .then((insertedTrip) => {
 
-    var parsedTrips = [];
+    console.log( JSON.stringify(insertedTrip, undefined, 2) );
 
-    for (var i = 0; i < insertedTrips.length; i++) {
-      parsedTrips.push(insertedTrips[i][0]);
-    }
-    if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
-    res.status(200).send(parsedTrips);
+    if ( process.env.DB_CLIENT === 'sqlite3' ) return res.status(200).send({id: insertedTrip[0]});
+    res.status(200).send(insertedTrip[0]);
   })
   .catch((err) => {
     console.log(err);
@@ -152,18 +136,16 @@ function FormatTripsAndSetUsers( trips, users ) {
   var formattedTrips = {};
   var tripDate, stringTripDate;
   for (var i = 0; i < trips.length; i++) {
-    tripDate = trips[i].date;
-    stringTripDate = tripDate.getUTCFullYear() + '-' + ('0' + (tripDate.getMonth() + 1)).slice(-2) + '-' + ('0' + tripDate.getUTCDate()).slice(-2);
-    // Set Tree Properties
-    if ( !formattedTrips[stringTripDate] ) formattedTrips[stringTripDate] = {};
-    if ( !formattedTrips[stringTripDate][trips[i].destiny]  ) formattedTrips[stringTripDate][trips[i].destiny]  = { cost: 0, travelers: [] };
-    // Set Trip User
-    trips[i].user = usersAsIdHash[trips[i].user_id]
-    formattedTrips[stringTripDate][trips[i].destiny].travelers.push(trips[i]);
-    formattedTrips[stringTripDate][trips[i].destiny].cost = trips[i].cost;
+
+    if ( _.isString(trips[i].users) ) trips[i].users = JSON.parse(trips[i].users);
+
+    trips[i].users_obj = [];
+    for (var j = 0; j < trips[i].users.length; j++) {
+      trips[i].users_obj.push(usersAsIdHash[trips[i].users[j]]);
+    }
   }
 
-  return formattedTrips;
+  return trips;
 
 }
 function GetUserExpenses( days, users ) {

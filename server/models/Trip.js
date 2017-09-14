@@ -1,15 +1,14 @@
 var _ = require('lodash');
 const TABLE_NAME = 'trips';
-const ALLOWED_PARAMS = ['user_id', 'destiny', 'cost', 'payed', 'date'];
+const ALLOWED_PARAMS = ['users', 'destiny', 'cost',  'date'];
 
 class Trip {
 
   constructor( data ) {
     this.id = 0;
-    this.user_id = -1;
+    this.users = [];
     this.destiny = '';
     this.cost = 0;
-    this.payed = false;
     this.date = new Date();
 
     if ( data ) {
@@ -22,11 +21,9 @@ class Trip {
 
   Validate( ) {
 
-    if ( !_.isNumber(this.user_id) ) return false;
+    if ( !_.isArray(this.users) ) return false;
     if ( !_.isString(this.destiny) ) return false;
     if ( !_.isNumber(this.cost) ) return false;
-    if ( !_.isBoolean(this.payed) ) return false;
-
     return true;
   }
 

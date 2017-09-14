@@ -7,6 +7,7 @@
   function adminController( usersService, tripsService, $uibModal, $log ) {
     var vm = this;
     vm.users = [];
+    vm.trips = [];
     vm.newUser = {
       firstname: null,
       lastname: null,
@@ -22,8 +23,12 @@
       console.log('adminController loaded');
 
       usersService.getUsers()
-      .then(function (data) {
-        vm.users = data;
+      .then(function (users) {
+        vm.users = users;
+        return tripsService.getTripsData();
+      })
+      .then(function (trips) {
+        vm.trips = trips;
         vm.adminReady = true;
       })
       .catch(function (err) {
@@ -58,7 +63,30 @@
 
     }
 
+    vm.OpenTripModal = function ( trip ) {
+      var modalInstance = $uibModal.open({
+        animation: vm.animationsEnabled,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'app/carpool/admin/trip/trip.modal.html',
+        controller: 'tripModalController',
+        controllerAs: 'vm',
+        size: 'lg',
+        resolve: {
+          trip: function () {
+            return trip;
+          }
+        }
+      });
 
+      modalInstance.result.then(function (trip) {
+        console.log('Submitted trip:', trip);
+        console.error('Push trip into correct place!!');
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+
+    }
 
     init();
 

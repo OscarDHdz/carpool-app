@@ -4,16 +4,12 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('trips', function (table) {
       table.increments('id');
-      table.integer('user_id')
-        .references('id')
-        .inTable('users')
+      table.jsonb('users')
+        .defaultTo('[]');
       table.text('destiny')
         .defaultTo('undefined')
       table.decimal('cost')
         .defaultTo(0)
-        .notNull()
-      table.boolean('payed')
-        .defaultTo(false)
         .notNull()
       table.timestamp('date')
         .defaultTo(knex.fn.now())

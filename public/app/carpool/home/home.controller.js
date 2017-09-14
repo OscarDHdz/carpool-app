@@ -22,24 +22,23 @@
       console.log('homeController loaded');
 
       usersService.getUsers()
-      .then(function ( data ) {
-        vm.users = data;
+      .then(function ( users ) {
+        vm.users = users;
         return tripsService.getTripsData();
       })
-      .then(function ( data ) {
-        vm.trips = data.trips;
-        // vm.users = data.users;
+      .then(function ( trips ) {
+        vm.trips = trips;
         // Set This Week Trips
         var currentDate = new Date();
         var currentWeekWeekDays = GetWeekDays(currentDate);
-        vm.thisWeekTrips = WeekTrips(currentWeekWeekDays);
+        vm.thisWeekTrips = WeekTrips(currentWeekWeekDays, vm.trips);
         vm.thisWeekExpenses = GetUserExpenses(vm.thisWeekTrips, vm.users);
         // Last week Trips
-        currentDate.setDate(currentDate.getDate()-7);
-        var lastWeekDate = currentDate;
-        var lastWeekWeekDays = GetWeekDays(lastWeekDate)
-        vm.lastWeekTrips = WeekTrips(lastWeekWeekDays);
-        vm.lastWeekExpenses = GetUserExpenses(vm.lastWeekExpenses, vm.users);
+        // currentDate.setDate(currentDate.getDate()-7);
+        // var lastWeekDate = currentDate;
+        // var lastWeekWeekDays = GetWeekDays(lastWeekDate)
+        // vm.lastWeekTrips = WeekTrips(lastWeekWeekDays);
+        // vm.lastWeekExpenses = GetUserExpenses(vm.lastWeekExpenses, vm.users);
         // Format
 
         vm.tripsReady = true;
@@ -71,14 +70,22 @@
 
 
     }
-    function WeekTrips( weekdays ) {
-      var trips = {};
+
+    function WeekTrips( weekdays, trips ) {
+      var weekTrips = {};
       weekdays = weekdays.sort();
       for (var i = 0; i < weekdays.length; i++) {
-        trips[weekdays[i]] = vm.trips[weekdays[i]];
+        weekTrips[weekdays[i]] = [];
+        weekTrips[weekdays[i]] = trips.filter(function (trip) {
+          if (trip.date.toString().split('T')[0] === weekdays[i] ) return true;
+          return false;
+        })
+
+
       }
-      return trips;
+      return weekTrips;
     }
+
     function GetUserExpenses( days, users ) {
 
       var expensesByUsers = {};
@@ -91,18 +98,28 @@
         }
       }
 
+      console.log(days);
       for (var day in days) {
-        var dayData = days[day];
-        for (var trip in dayData) {
-          var tripData = dayData[trip];
 
-          var tripCost = tripData.cost;
-          var splittedCost = Math.round( tripCost / tripData.travelers.length );
-          for (var i = 0; i < tripData.travelers.length; i++) {
-            expensesByUsers[tripData.travelers[i].user.email].owes += splittedCost;
+        var dayTrips = days[day];
+
+        for (var i = 0; i < dayTrips.length; i++) {
+          var trip = dayTrips[i];
+          var tripCost = (trip.cost / trip.users_obj.length);
+          for (var j = 0; j < trip.users_obj.length; j++) {
+            var user = trip.users_obj[j];
+            expensesByUsers[user.email].owes += tripCost;
           }
         }
+        // Round final account
+        for (var user in expensesByUsers) {
+          expensesByUsers[user].owes = Math.round(expensesByUsers[user].owes);
+        }
+
+
       }
+
+      console.log(expensesByUsers);
 
       return expensesByUsers;
 
