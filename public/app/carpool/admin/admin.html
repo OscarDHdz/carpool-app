@@ -35,8 +35,15 @@
                   <span>{{traveler.firstname[0] + traveler.lastname[0]}}</span>
                 </div>
               </td>
+
               <td>
                 <button ng-click="vm.OpenTripModal(trip)" class="btn btn-outline-primary" type="button" name="button"><i class="mi mi-edit"></i></button>
+                <button ng-click="vm.RemoveTrip(trip)" class="btn btn-outline-danger" type="button" name="button"><i class="mi mi-delete"></i></button>
+                <!-- <div class="">
+                  <button ng-click="vm.DeleteTrip(trip)" class="btn btn-outline-danger" type="button" name="button"><i class="mi mi-cancel"></i></button>
+                  <button ng-click="vm.DeleteTrip(trip)" class="btn btn-outline-success" type="button" name="button"><i class="mi mi-check"></i></button>
+                </div> -->
+
               </td>
             </tr>
           </tbody>

@@ -132,9 +132,10 @@ router.patch('/trips/:id', (req, res) => {
 router.delete('/trips/:id', (req, res) => {
     var id = req.params.id;
     if ( +id >= 0 ) {
-      knex(TABLE_NAME).update(trip).where({id}).returning('*')
+      knex(TABLE_NAME).where({id}).del()
       .then((response) => {
-        if ( !response[0] ) {
+        console.log( JSON.stringify(response, undefined, 2) );
+        if ( !response ) {
           return res.status(404).send({message: 'Trip not found'})
         }
         else return res.sendStatus(201);

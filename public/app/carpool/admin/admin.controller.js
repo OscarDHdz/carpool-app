@@ -89,6 +89,46 @@
 
     }
 
+    vm.RemoveTrip = function ( trip ) {
+      var modalInstance = $uibModal.open({
+        animation: vm.animationsEnabled,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'app/carpool/admin/confirm/confirm.modal.html',
+        controller: 'confirmModalController',
+        controllerAs: 'vm',
+        size: 'lg',
+        resolve: {
+          trip: function () {
+            return trip;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (response) {
+        console.log('Remove trip?:', response);
+        if ( response === true ) {
+
+          tripsService.DeleteTrip( trip )
+          .then(function ( response ) {
+            for (var i = 0; i < vm.trips.length; i++) {
+              if ( vm.trips[i].id === trip.id ) vm.trips.splice(i, 1);
+            }
+            console.log('Removed Trip');
+
+          })
+          .catch(function ( err ) {
+            console.error(err);
+          })
+
+
+        }
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+
+    }
+
     init();
 
 

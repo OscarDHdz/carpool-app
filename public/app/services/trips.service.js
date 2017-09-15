@@ -59,10 +59,28 @@
       return deferred.promise;
     }
 
+    var DeleteTrip = function ( trip ) {
+
+      var deferred = $q.defer();
+
+        var resource = resourceService.getItems('trips', trip);
+        resource.delete({}, trip, function ( response ) {
+          console.log('Removed trip data:', response);
+          deferred.resolve(true);
+        }, function (err) {
+          deferred.reject(err);
+        })
+
+
+      return deferred.promise;
+
+    }
+
     return {
       getTripsData: getTripsData,
       CreateTrip: CreateTrip,
       SaveTrip: SaveTrip,
+      DeleteTrip: DeleteTrip,
       data: data,
     }
 

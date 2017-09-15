@@ -34,6 +34,13 @@
                   headers: {
                       'Accept': 'application/json;odata=verbose;'
                   }
+                },
+                delete: {
+                  method: 'DELETE',
+                  url: REST_URL + table + ( item ? '/' + item.id : ''),
+                  headers: {
+                      'Accept': 'application/json;odata=verbose;'
+                  }
                 }
             });
     }
