@@ -2,9 +2,9 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('adminController', ['usersService', 'tripsService', '$uibModal', '$log', adminController]);
+    .controller('adminController', ['usersService', 'tripsService', '$uibModal', '$log',  adminController]);
 
-  function adminController( usersService, tripsService, $uibModal, $log ) {
+  function adminController( usersService, tripsService, $uibModal, $log) {
     var vm = this;
     vm.users = [];
     vm.trips = [];
@@ -16,6 +16,7 @@
       username: null
     }
     vm.adminReady = false;
+    vm.activeTab = 0;
 
 
 

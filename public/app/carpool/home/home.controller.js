@@ -28,11 +28,13 @@
       })
       .then(function ( trips ) {
         vm.trips = trips;
+        console.log(vm.trips);
         // Set This Week Trips
         var currentDate = new Date();
         var currentWeekWeekDays = GetWeekDays(currentDate);
         vm.thisWeekTrips = WeekTrips(currentWeekWeekDays, vm.trips);
         vm.thisWeekExpenses = GetUserExpenses(vm.thisWeekTrips, vm.users);
+
         // Last week Trips
         // currentDate.setDate(currentDate.getDate()-7);
         // var lastWeekDate = currentDate;

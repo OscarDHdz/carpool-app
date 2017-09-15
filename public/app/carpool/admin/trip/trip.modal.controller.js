@@ -30,12 +30,15 @@
 
     function init() {
       console.log('tripModalController loaded');
-      if ( trip ) { vm.trip = new Trip(trip); vm.newItem = false;  }
+      if ( trip ) { vm.trip = new Trip(trip); vm.trip.SetViewFormat(); vm.newItem = false;  }
       else vm.trip = new Trip();
 
       usersService.getUsers()
       .then(function ( users ) {
+
+        var usersIdsOnExistingTrip = vm.trip.users;
         for (var i = 0; i < users.length; i++) {
+          if ( usersIdsOnExistingTrip.indexOf( users[i].id ) === -1  )
             vm.availableUsers.push(users[i]);
         }
       })
@@ -54,6 +57,7 @@
           console.log('Created User');
           var submittedTrip = new Trip(tripModel);
           submittedTrip.id = tripId;
+          console.log(vm.trips);
           $uibModalInstance.close(submittedTrip);
         })
         .catch(function ( err ) {
@@ -61,10 +65,11 @@
         })
       }
       else {
-        usersService.SaveUser( userModel )
+        tripsService.SaveTrip( tripModel )
         .then(function ( data ) {
-          console.log('Saved User');
-          User.Copy(user, userModel);
+          console.log('Saved Trip');
+          Trip.Copy(trip, tripModel);
+          trip.SetDataFormat();
           $uibModalInstance.dismiss();
         })
         .catch(function ( err ) {

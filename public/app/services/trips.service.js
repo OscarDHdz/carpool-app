@@ -17,6 +17,9 @@
         resource.get({},function ( response ) {
           console.log('Retrived trips data:', response);
           data.trips = response.trips;
+          for (var i = 0; i < data.trips.length; i++) {
+            data.trips[i] = new Trip(data.trips[i]);
+          }
           deferred.resolve(data.trips);
         }, function (err) {
           deferred.reject(err);
@@ -42,11 +45,24 @@
       return deferred.promise;
     }
 
+    var SaveTrip = function ( trip ) {
+      var deferred = $q.defer();
 
+        var resource = resourceService.getItems('trips', trip);
+        resource.patch({}, trip, function ( response ) {
+          console.log('Updated trip data:', response);
+          deferred.resolve(true);
+        }, function (err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
 
     return {
       getTripsData: getTripsData,
       CreateTrip: CreateTrip,
+      SaveTrip: SaveTrip,
       data: data,
     }
 

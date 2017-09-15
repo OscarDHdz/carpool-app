@@ -13,8 +13,9 @@ router.get('/trips', (req, res) => {
   $scope = { users: null, trips: null }
 
   // Get only trips from last month
-  var todayDate = moment().format('YYYY-MM-DD');
+  var todayDate = moment().add(1, 'days').format('YYYY-MM-DD');
   var monthAgoDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
+
 
   knex(TABLE_NAME).select('*').where('date', '>=', monthAgoDate).andWhere('date', '<=', todayDate)
   .then((trips) => {
@@ -68,8 +69,6 @@ router.post('/trips', (req, res) => {
   })
   .then((insertedTrip) => {
 
-    console.log( JSON.stringify(insertedTrip, undefined, 2) );
-
     if ( process.env.DB_CLIENT === 'sqlite3' ) return res.status(200).send({id: insertedTrip[0]});
     res.status(200).send(insertedTrip[0]);
   })
@@ -106,23 +105,48 @@ router.patch('/trips/:id', (req, res) => {
   var id = req.params.id;
   var data = _.pick(req.body, ALLOWED_PARAMS);
 
+  var trip = new Trip(data);
+  if ( !trip.Validate() ) return res.status(400).send({message: 'Bad Input Data'})
+  // KnexFormat
+  trip.users = JSON.stringify(trip.users);
   // Not allowed params
-  delete data.id;
+  delete trip.id;
 
-  if ( +id ) {
-    knex(TABLE_NAME).update(data).where({id}).returning('*')
+  if ( +id >= 0 ) {
+    knex(TABLE_NAME).update(trip).where({id}).returning('*')
     .then((updatedData) => {
       if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
       if ( updatedData[0] ) res.status(200).send(updatedData[0])
       else res.status(404).send({message: ' Not Found'});
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send(err);
     })
   }
   else {
     res.status(400).send({message: 'Invalid Id'})
   }
+})
+
+router.delete('/trips/:id', (req, res) => {
+    var id = req.params.id;
+    if ( +id >= 0 ) {
+      knex(TABLE_NAME).update(trip).where({id}).returning('*')
+      .then((response) => {
+        if ( !response[0] ) {
+          return res.status(404).send({message: 'Trip not found'})
+        }
+        else return res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      })
+    }
+    else {
+      res.status(400).send({message: 'Invalid Id'})
+    }
 })
 
 function FormatTripsAndSetUsers( trips, users ) {

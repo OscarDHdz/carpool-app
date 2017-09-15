@@ -17,6 +17,9 @@
         resource.get({},function ( response ) {
           console.log('Retrived users data:', response);
           data.users = response.users;
+          for (var i = 0; i < data.users.length; i++) {
+            data.users[i] = new User(data.users[i])
+          }
           deferred.resolve(response.users);
         }, function (err) {
           deferred.reject(err);
