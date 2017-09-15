@@ -1,16 +1,64 @@
+<style media="screen">
+  .persona {
+    border-radius: 100%;
+    background-color: #ccc;
+    width: 5vw !important;
+    height: 5vw !important;
+    text-align: center;
+    position: relative;
+    float: left;
+    margin-left: 7px !important;
+    margin-top: 7px !important;
+  }
+  .persona span {
+    position: absolute;
+    text-align: center;
+    width: 2vw;
+    height: 2vw;
+    left: 0.9vw !important;
+    top: 1vw !important;
+    font-size: 2.4vw !important;
+    color: #fefefe;
+  }
+  .persona:hover  {
+    cursor: pointer;
+  }
+
+  .users-input {
+        min-height: 7vw;
+  }
+
+  .full button span {
+    background-color: limegreen !important;
+    border-radius: 32px !important;
+    color: black !important;
+  }
+  .partially button span {
+    background-color: orange !important;
+    border-radius: 32px !important;
+    color: black !important;
+  }
+
+</style>
 <div class="modal-header">
     <h3 class="modal-title" id="modal-title">{{ vm.newItem ? 'New Trip' : 'Edit Trip' }}</h3>
 </div>
 <div class="modal-body" id="modal-body">
   <form name="tripForm">
     <!--  Date -->
-    <div class="form-group">
-      <label class="sr-only" for="tripDate">Date</label>
-      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Date</div>
-        <input name="date" required ng-model="vm.trip.date" type="text" class="form-control" id="tripDate" placeholder="yyyy-mm-dd">
-      </div>
-    </div>
+   <div class="form-group">
+     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+       <div class="input-group-addon">Date</div>
+       <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" ng-model="vm.trip.date" is-open="vm.datepicker.opened" datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+       <span class="input-group-btn">
+         <button type="button" class="btn btn-outline-primary" ng-click="vm.openDatePicker()"><i class="mi mi-today"></i></button>
+       </span>
+     </div>
+   </div>
+
+
+
+
     <!--  Destiny -->
     <div class="form-group">
       <label class="sr-only" for="tripDestiny">Destiny</label>
@@ -29,10 +77,46 @@
     </div>
     <!--  Users -->
     <div class="form-group">
-      <label class="sr-only" for="tripUsers">Users</label>
-      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">Users</div>
-        <input name="users" required ng-model="vm.trip.users"  type="text" class="form-control" id="tripUsers" placeholder="Some users...">
+      <h5>People</h5>
+
+      <div class="row">
+
+        <div class="col-xs-5 col-sm-6">
+          <label>Available Users</label>
+          <div  class="form-control users-input">
+            <div class="persona" ng-repeat="user in vm.availableUsers"  ng-click="vm.UserSelect(user, true, $index)" style="background-color: {{user.color}};">
+              <span>{{user.firstname[0] + user.lastname[0]}}</span>
+            </div>
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+        <!-- <div class="col-xs-2 col-sm-2">
+          -
+        </div> -->
+        <div class="col-xs-5 col-sm-6">
+          <label for="">Selected Users</label>
+          <div class="form-control users-input">
+            <div class="persona" ng-repeat="user in vm.trip.users_obj" ng-click="vm.UserSelect(user, false, $index)" style="background-color: {{user.color}};">
+              <span>{{user.firstname[0] + user.lastname[0]}}</span>
+            </div>
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div>
+          <pre>
+            {{vm.trip | json }}
+          </pre>
+        </div>
+
+      </div>
+
+
+
+
+
       </div>
     </div>
   </form>
@@ -42,6 +126,6 @@
   <!--  Buttons -->
   <div class="form-group" style="text-align: right;">
     <button type="button" name="button" class="btn btn-outline-danger" ng-click="vm.CloseModal()">Clear</button>
-    <button ng-disabled="!tripForm.$valid" type="button" ng-click="vm.SubmitTrip(vm.trip)" name="button" class="btn btn-outline-primary">{{ vm.newItem ? 'Create' : 'Save' }}</button>
+    <button ng-disabled="!tripForm.$valid || vm.trip.users.length == 0" type="button" ng-click="vm.SubmitTrip(vm.trip)" name="button" class="btn btn-outline-primary">{{ vm.newItem ? 'Create' : 'Save' }}</button>
   </div>
 </div>

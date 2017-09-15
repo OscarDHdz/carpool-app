@@ -12,7 +12,7 @@
       <tr>
         <td class="week-day" ng-repeat="(day, trips) in vm.trips">
 
-          <div class="day-data" ng-repeat="trip in trips">
+          <div class="day-data" ng-repeat="trip in trips | orderBy: '-destiny'">
             <span class="day-data-title">
               {{trip.destiny}} <small>${{trip.cost}}</small>
             </span>

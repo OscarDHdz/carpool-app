@@ -81,7 +81,7 @@
 
       modalInstance.result.then(function (trip) {
         console.log('Submitted trip:', trip);
-        console.error('Push trip into correct place!!');
+        vm.trips.push(trip);
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });

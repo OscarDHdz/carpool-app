@@ -20,9 +20,11 @@
 
       if ( vm.newItem ) {
         usersService.CreateUser( userModel )
-        .then(function ( data ) {
+        .then(function ( userId ) {
           console.log('Created User');
           var submittedUser = new User(userModel);
+          submittedUser.id = userId;
+          console.log('HERE', submittedUser);
           $uibModalInstance.close(submittedUser);
         })
         .catch(function ( err ) {

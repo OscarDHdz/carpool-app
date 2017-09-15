@@ -28,8 +28,25 @@
       return deferred.promise;
     }
 
+    var CreateTrip = function ( trip ) {
+      var deferred = $q.defer();
+
+        var resource = resourceService.getItems('trips');
+        resource.post({}, trip, function ( response ) {
+          console.log('Submitted trip data:', response);
+          deferred.resolve(response.id);
+        }, function (err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
+
+
+
     return {
       getTripsData: getTripsData,
+      CreateTrip: CreateTrip,
       data: data,
     }
 

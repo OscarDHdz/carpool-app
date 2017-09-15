@@ -31,7 +31,7 @@
         var resource = resourceService.getItems('users');
         resource.post({}, user, function ( response ) {
           console.log('Submitted user data:', response);
-          deferred.resolve(true);
+          deferred.resolve(response.id);
         }, function (err) {
           deferred.reject(err);
         })
