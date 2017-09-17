@@ -5,6 +5,7 @@
 
     var vm = this;
     vm.trips;
+    vm.hasTrips = false;
 
     function init( ) {
 

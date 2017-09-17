@@ -5,17 +5,27 @@
     <h3>This week</h3>
     <hr>
     <app-loading ng-if="!vm.tripsReady"></app-loading>
-    <rowcalendar-component trips="vm.thisWeekTrips" ng-if="vm.tripsReady"></rowcalendar-component>
-    <div style="margin-top: 20px;">
-      <expenses-component expenses="vm.thisWeekExpenses"></expenses-component>
+
+    <div >
+      <rowcalendar-component trips="vm.thisWeekTrips" ng-if="vm.tripsReady"></rowcalendar-component>
+      <div style="margin-top: 20px;" ng-if="vm.thisWeekHasTrips" >
+        <expenses-component expenses="vm.thisWeekExpenses"></expenses-component>
+      </div>
+    </div>
+
+
+  </div>
+  <div style="margin-top: 40px;">
+    <h3>Last week</h3>
+    <hr>
+    <div >
+      <rowcalendar-component trips="vm.lastWeekTrips" ></rowcalendar-component>
+      <div style="margin-top: 20px;" ng-if="vm.lastWeekHasTrips">
+        <expenses-component expenses="vm.lastWeekExpenses"></expenses-component>
+      </div>
     </div>
 
   </div>
-  <!-- <div style="margin-top: 20px;">
-    <h3>Last week</h3>
-    <hr>
-    <rowcalendar-component trips="vm.lastWeekTrips" ></rowcalendar-component>
-  </div> -->
 
 
 </div>

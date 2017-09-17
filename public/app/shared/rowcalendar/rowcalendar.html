@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr>
-        <td class="week-day" ng-repeat="(day, trips) in vm.trips">
+        <td class="week-day" ng-repeat="(day, trips) in vm.trips" >
 
           <div class="day-data" ng-repeat="trip in trips | orderBy: '-destiny'">
             <span class="day-data-title">

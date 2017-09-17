@@ -11,8 +11,10 @@
     vm.users = []
     vm.thisWeekTrips = {}
     vm.thisWeekExpenses = {}
+    vm.thisWeekHasTrips = false;
     vm.lastWeekTrips = {}
     vm.lastWeekExpenses = {}
+    vm.lastWeekHasTrips = false;
     vm.tripsReady = false;
 
 
@@ -29,18 +31,32 @@
       .then(function ( trips ) {
         vm.trips = trips;
         console.log(vm.trips);
+
         // Set This Week Trips
         var currentDate = new Date();
         var currentWeekWeekDays = GetWeekDays(currentDate);
         vm.thisWeekTrips = WeekTrips(currentWeekWeekDays, vm.trips);
+        for (var day in vm.thisWeekTrips) {
+          if ( vm.thisWeekTrips[day].length > 0 ) {
+            vm.thisWeekHasTrips = true;
+            break;
+          }
+        }
         vm.thisWeekExpenses = GetUserExpenses(vm.thisWeekTrips, vm.users);
 
         // Last week Trips
-        // currentDate.setDate(currentDate.getDate()-7);
-        // var lastWeekDate = currentDate;
-        // var lastWeekWeekDays = GetWeekDays(lastWeekDate)
-        // vm.lastWeekTrips = WeekTrips(lastWeekWeekDays);
-        // vm.lastWeekExpenses = GetUserExpenses(vm.lastWeekExpenses, vm.users);
+        currentDate.setDate(currentDate.getDate()-7);
+        var lastWeekDate = currentDate;
+        var lastWeekWeekDays = GetWeekDays(lastWeekDate)
+        vm.lastWeekTrips = WeekTrips(lastWeekWeekDays, vm.trips);
+        for (var day in vm.lastWeekTrips) {
+          if ( vm.lastWeekTrips[day].length > 0 ) {
+            vm.lastWeekHasTrips = true;
+            break;
+          }
+        }
+        vm.lastWeekExpenses = GetUserExpenses(vm.lastWeekTrips, vm.users);
+
         // Format
 
         vm.tripsReady = true;
@@ -83,7 +99,6 @@
           return false;
         })
 
-
       }
       return weekTrips;
     }
@@ -104,6 +119,7 @@
 
         var dayTrips = days[day];
 
+
         for (var i = 0; i < dayTrips.length; i++) {
           var trip = dayTrips[i];
           var tripCost = (trip.cost / trip.users_obj.length);
@@ -112,6 +128,7 @@
             expensesByUsers[user.email].owes += tripCost;
           }
         }
+
         // Round final account
         for (var user in expensesByUsers) {
           expensesByUsers[user].owes = Math.round(expensesByUsers[user].owes);
