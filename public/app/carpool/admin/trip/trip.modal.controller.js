@@ -54,7 +54,7 @@
       if ( vm.newItem ) {
         tripsService.CreateTrip( tripModel )
         .then(function ( tripId ) {
-          console.log('Created User');
+          console.log('Created Trip');
           var submittedTrip = new Trip(tripModel);
           submittedTrip.id = tripId;
           console.log(vm.trips);

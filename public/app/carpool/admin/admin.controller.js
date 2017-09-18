@@ -2,12 +2,17 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('adminController', ['usersService', 'tripsService', '$uibModal', '$log',  adminController]);
+    .controller('adminController', ['usersService', 'tripsService', '$uibModal', '$log', 'toaster', adminController]);
 
-  function adminController( usersService, tripsService, $uibModal, $log) {
+  function adminController( usersService, tripsService, $uibModal, $log, toaster) {
     var vm = this;
     vm.users = [];
     vm.trips = [];
+    vm.tripsPagination = {
+      items: vm.trips,
+      pageItems: 10,
+      currentPage: 1
+    }
     vm.newUser = {
       firstname: null,
       lastname: null,
@@ -30,6 +35,7 @@
       })
       .then(function (trips) {
         vm.trips = trips;
+        vm.tripsPagination.items = vm.trips;
         vm.adminReady = true;
       })
       .catch(function (err) {
@@ -56,6 +62,7 @@
 
       modalInstance.result.then(function (user) {
         console.log('Submitted user:', user);
+        toaster.pop('success', "Opertion Completed", "User was created correctly");
         vm.users.push(user);
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -65,6 +72,7 @@
     }
 
     vm.OpenTripModal = function ( trip ) {
+
       var modalInstance = $uibModal.open({
         animation: vm.animationsEnabled,
         ariaLabelledBy: 'modal-title',
@@ -82,6 +90,7 @@
 
       modalInstance.result.then(function (trip) {
         console.log('Submitted trip:', trip);
+        toaster.pop('success', "Opertion Completed", "Trip was created correctly");
         vm.trips.push(trip);
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -115,7 +124,7 @@
               if ( vm.trips[i].id === trip.id ) vm.trips.splice(i, 1);
             }
             console.log('Removed Trip');
-
+            toaster.pop('success', "Opertion Completed", "Trip was removed correctly");
           })
           .catch(function ( err ) {
             console.error(err);
@@ -128,6 +137,16 @@
       });
 
     }
+
+    vm.getPageNegativeLimit = function ( elements, currentPage, pageItems ) {
+
+      var top = currentPage * pageItems;
+
+      if ( top <= elements.length ) return pageItems;
+
+      return Math.abs(top - elements.length - pageItems);
+    }
+
 
     init();
 

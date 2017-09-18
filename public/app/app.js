@@ -10,6 +10,8 @@
 
     'ui.bootstrap',
 
+    'toaster',
+
 
 
     'app.carpool'

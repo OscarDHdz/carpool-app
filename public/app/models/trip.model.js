@@ -25,7 +25,7 @@ Trip.prototype.SetViewFormat = function () {
 }
 Trip.prototype.SetDataFormat = function () {
   if (typeof this.date === 'object') {
-    this.date = this.date.getUTCFullYear() + '-' + ('0' + (this.date.getUTCMonth() + 1)).slice(-2) + '-' + ( '0' + this.date.getDate()).slice(-2) + 'T00:00:00.000Z'
+    this.date = this.date.getUTCFullYear() + '-' + ('0' + (this.date.getUTCMonth() + 1)).slice(-2) + '-' + ( '0' + this.date.getDate()).slice(-2) // + 'T00:00:00.000Z'
   }
   if ( typeof this.cost === 'string' ) this.cost = Number(this.cost);
 }
