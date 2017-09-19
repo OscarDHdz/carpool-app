@@ -30,7 +30,6 @@
       })
       .then(function ( trips ) {
         vm.trips = trips;
-        console.log(vm.trips);
 
         // Set This Week Trips
         var currentDate = new Date();

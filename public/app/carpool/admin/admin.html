@@ -11,23 +11,15 @@
   }
 </style>
 <h1>Admin Panel</h1>
-<uib-tabset type="pills">
-   <uib-tab heading="Trips" class="btn">
-     Tab 1 content
-   </uib-tab>
-   <uib-tab heading="Users" classes="btn">
-     Tab 2 content
-   </uib-tab>
- </uib-tabset>
 
 <!--  Trips -->
-<div class="row content-margin" >
+<div class="row content-margin animated fadeIn" >
   <div class="col-xs-12 col-md-12">
     <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenTripModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
-    <h3></h3>
+    <h3>Trips</h3>
     <hr>
   </div>
-  <div class="col-xs-12 col-md-12">
+  <div class="col-xs-12 col-md-12 table-container">
     <table class="people table table-striped" >
       <thead>
         <tr>
@@ -68,13 +60,13 @@
 </div>
 </div>
 <!--  Users -->
-<div class="row content-margin" >
+<div class="row content-margin animated fadeIn" >
   <div class="col-xs-12 col-md-12">
     <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenUserModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
-    <h3></h3>
+    <h3>Users</h3>
     <hr>
   </div>
-  <div class="col-xs-12 col-md-12">
+  <div class="col-xs-12 col-md-12 table-container">
     <table class="people table table-striped" >
       <thead>
         <tr>

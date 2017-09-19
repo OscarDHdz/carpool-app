@@ -81,3 +81,42 @@
 .persona-expense h5 {
   line-height: 3vw;
 }
+
+
+
+/* Mobile */
+@media only screen
+and (max-width: 467px) {
+  .persona {
+    width: 12vw !important;
+    height: 12vw !important;
+  }
+  .persona span {
+    width: 10vw !important;
+    height: 2vw !important;
+    left: 0.8vw !important;
+    top: 0.8vw !important;
+    font-size: 6.4vw !important;
+  }
+  .users-input {
+     min-height: 15vw; 
+  }
+  .persona-expense table .persona-name,
+  .persona-expense table .persona-owes {
+    font-size: 6.8vw;
+  }
+
+  .week-container {
+    overflow-x: scroll;
+  }
+  .week {
+    min-width: 800px;
+  }
+
+  .table-container {
+    overflow-x: scroll;
+  }
+  .people.table {
+    width: 600px;
+  }
+}

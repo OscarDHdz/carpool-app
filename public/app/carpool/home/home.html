@@ -1,12 +1,21 @@
-<div ng-controller="homeController as vm">
+<style media="screen">
+  .accordion-title:hover {
+    cursor: pointer;
+  }
+  .accordion-title {
+    border-bottom: 2px solid #ccc;
+    padding: 7px;
+  }
+</style>
+<div ng-controller="homeController as vm" class="animated fadeIn">
 
-  <h1>Carpool Dashboard</h1>
+  <h1>Dashboard</h1>
   <div style="margin-top: 20px;">
-    <h3>This week</h3>
+    <h3 class="accordion-title">This week</h3>
     <hr>
     <app-loading ng-if="!vm.tripsReady"></app-loading>
 
-    <div >
+    <div class="animated fadeIn">
       <rowcalendar-component trips="vm.thisWeekTrips" ng-if="vm.tripsReady"></rowcalendar-component>
       <div style="margin-top: 20px;" ng-if="vm.thisWeekHasTrips" >
         <expenses-component expenses="vm.thisWeekExpenses"></expenses-component>
@@ -15,10 +24,11 @@
 
 
   </div>
-  <div style="margin-top: 40px;">
-    <h3>Last week</h3>
-    <hr>
-    <div >
+  <div style="margin-top: 40px; ">
+    <h3 class="accordion-title" ng-click="vm.showLastWeek = !vm.showLastWeek;">Last week
+      <i class="mi" ng-class="vm.showLastWeek ? 'mi-arrow-drop-up' : 'mi-arrow-drop-down'" style="top: 6px; left: -5px;"></i>
+    </h3>
+    <div ng-show="vm.showLastWeek" class="animated" ng-class="vm.showLastWeek ? 'fadeIn' : 'fadeOut'">
       <rowcalendar-component trips="vm.lastWeekTrips" ></rowcalendar-component>
       <div style="margin-top: 20px;" ng-if="vm.lastWeekHasTrips">
         <expenses-component expenses="vm.lastWeekExpenses"></expenses-component>

@@ -26,6 +26,7 @@
     "angular-resource": "^1.6.6",
     "ngtable-bower": "^3.0.1",
     "material-icons": "^0.1.0",
-    "AngularJS-Toaster": "angularjs-toaster#^2.2.0"
+    "AngularJS-Toaster": "angularjs-toaster#^2.2.0",
+    "animate.css": "^3.5.2"
   }
 }
