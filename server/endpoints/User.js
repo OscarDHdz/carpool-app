@@ -43,8 +43,8 @@ router.post('/users', (req, res) => {
 
     knex(TABLE_NAME).insert(user).returning('*')
     .then((insertedData) => {
-      if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
-      res.status(200).send(insertedData[0])
+      if ( process.env.DB_CLIENT === 'sqlite3' ) return res.status(200).send({id: insertedData[0]});
+      return res.status(200).send(insertedData[0])
     })
     .catch((err) => {
       console.log(err);
