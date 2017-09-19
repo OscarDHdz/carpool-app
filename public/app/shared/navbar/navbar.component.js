@@ -1,8 +1,8 @@
 (function () {
   'use_strict';
 
-  navbarController = function () {
-    init();
+  var navbarController =['$location', function ($location) {
+
 
     var vm = this;
 
@@ -11,7 +11,14 @@
     function init() {
       console.log('toolbarController loaded');
     }
-  }
+
+    vm.isActive = function (viewLocation) {
+      console.log( 'HERE', viewLocation , $location.path());
+      return viewLocation === $location.path();
+    };
+
+    init();
+  }];
 
   angular.module('app')
   .component('appNavbar', {

@@ -7,11 +7,13 @@
   function mainController() {
     var vm = this;
 
-    init();
+
 
     function init() {
       console.log('mainController loaded');
     }
+
+    init();
 
 
   }
