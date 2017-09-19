@@ -108,7 +108,7 @@
         controllerAs: 'vm',
         size: 'lg',
         resolve: {
-          trip: function () {
+          item: function () {
             return trip;
           }
         }
@@ -125,6 +125,46 @@
             }
             console.log('Removed Trip');
             toaster.pop('success', "Opertion Completed", "Trip was removed correctly");
+          })
+          .catch(function ( err ) {
+            console.error(err);
+          })
+
+
+        }
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+
+    }
+
+    vm.RemoveUser = function ( user ) {
+      var modalInstance = $uibModal.open({
+        animation: vm.animationsEnabled,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'app/carpool/admin/confirm/confirm.modal.html',
+        controller: 'confirmModalController',
+        controllerAs: 'vm',
+        size: 'lg',
+        resolve: {
+          item: function () {
+            return user;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (response) {
+        console.log('Remove user?:', response);
+        if ( response === true ) {
+
+          usersService.DeleteUser( user )
+          .then(function ( response ) {
+            for (var i = 0; i < vm.users.length; i++) {
+              if ( vm.users[i].id === user.id ) vm.users.splice(i, 1);
+            }
+            console.log('Removed User');
+            toaster.pop('success', "Opertion Completed", "User was deleted correctly");
           })
           .catch(function ( err ) {
             console.error(err);

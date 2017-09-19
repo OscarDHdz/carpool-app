@@ -124,7 +124,8 @@
           var tripCost = (trip.cost / trip.users_obj.length);
           for (var j = 0; j < trip.users_obj.length; j++) {
             var user = trip.users_obj[j];
-            expensesByUsers[user.email].owes += tripCost;
+            // Skip users if they are no longer active, only split cost but not report expense
+            if ( expensesByUsers[user.email] ) expensesByUsers[user.email].owes += tripCost;
           }
         }
 

@@ -56,10 +56,28 @@
       return deferred.promise;
     }
 
+    var DeleteUser = function ( user ) {
+
+      var deferred = $q.defer();
+
+        var resource = resourceService.getItems('users', user);
+        resource.delete({}, user, function ( response ) {
+          console.log('Removed user data:', response);
+          deferred.resolve(true);
+        }, function (err) {
+          deferred.reject(err);
+        })
+
+
+      return deferred.promise;
+
+    }
+
     return {
       getUsers: getUsers,
       CreateUser: CreateUser,
       SaveUser: SaveUser,
+      DeleteUser: DeleteUser,
       data: data,
     }
 

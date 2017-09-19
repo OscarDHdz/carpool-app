@@ -134,7 +134,6 @@ router.delete('/trips/:id', (req, res) => {
     if ( +id >= 0 ) {
       knex(TABLE_NAME).where({id}).del()
       .then((response) => {
-        console.log( JSON.stringify(response, undefined, 2) );
         if ( !response ) {
           return res.status(404).send({message: 'Trip not found'})
         }

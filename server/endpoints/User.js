@@ -6,7 +6,7 @@ var router = express.Router();
 var {User, TABLE_NAME, ALLOWED_PARAMS} = require('../models/User');
 
 router.get('/users', (req, res) => {
-  knex(TABLE_NAME).select('*')
+  knex(TABLE_NAME).select('*').where({active: true})
   .then((users) => {
     res.status(200).send({users})
   })
@@ -78,6 +78,27 @@ router.patch('/users/:id', (req, res) => {
   else {
     res.status(400).send({message: 'Invalid Id'})
   }
+})
+
+router.delete('/users/:id', (req, res) => {
+    var id = req.params.id;
+
+    if ( +id >= 0 ) {
+      knex(TABLE_NAME).update({active: false}).where({id})
+      .then((response) => {
+        if ( !response ) {
+          return res.status(404).send({message: 'User not found'})
+        }
+        else return res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      })
+    }
+    else {
+      res.status(400).send({message: 'Invalid Id'})
+    }
 })
 
 module.exports = router;

@@ -2,9 +2,9 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('confirmModalController', ['tripsService', '$uibModalInstance', 'trip', confirmModalController]);
+    .controller('confirmModalController', ['$uibModalInstance', 'item', confirmModalController]);
 
-  function confirmModalController( tripsService, $uibModalInstance, item ) {
+  function confirmModalController($uibModalInstance, item ) {
     var vm = this;
 
     vm.item;
