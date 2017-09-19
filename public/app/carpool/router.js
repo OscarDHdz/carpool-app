@@ -16,6 +16,12 @@
         controllerAs: 'vm',
         activetab: 'admin'
       })
+      .when('/login', {
+        templateUrl: 'app/carpool/login/login.html',
+        controller: 'loginController',
+        controllerAs: 'vm',
+        activetab: 'login'
+      })
       .otherwise({
         redirectTo: '/'
       });

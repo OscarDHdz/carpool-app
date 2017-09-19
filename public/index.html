@@ -9,14 +9,18 @@
 </head>
 <body ng-controller="mainController as vm">
 
-  <app-navbar></app-navbar>
-
-  <div class="container content-margin">
-    <div ng-view></div>
-  </div>
 
 
-  <footer-jumbotron></footer-jumbotron>
+
+
+    <app-navbar></app-navbar>
+
+    <div class="container content-margin">
+      <div ng-view></div>
+    </div>
+
+    <footer-jumbotron></footer-jumbotron>
+
 
 
 
@@ -85,11 +89,12 @@
   <script src="app/shared/bootstrap4Pagination/bootstrap4Pagination.component.js" charset="utf-8"></script>
 
 
-
   <!--  Carpool Module -->
   <script src="app/carpool/carpool.module.js" charset="utf-8"></script>
   <script src="app/carpool/router.js" charset="utf-8"></script>
 
+  <!--  Carpool.LogIn -->
+  <script src="app/carpool/login/login.controller.js" charset="utf-8"></script>
   <!--  Carpool.Home -->
   <script src="app/carpool/home/home.controller.js" charset="utf-8"></script>
   <!--  Carpool.Admin -->
@@ -102,6 +107,7 @@
   <script src="app/carpool/admin/confirm/confirm.modal.controller.js" charset="utf-8"></script>
 
   <!--  Services -->
+  <script src="app/services/auth.service.js" charset="utf-8"></script>
   <script src="app/services/trips.service.js" charset="utf-8"></script>
   <script src="app/services/resource.service.js" charset="utf-8"></script>
   <script src="app/services/users.service.js" charset="utf-8"></script>
