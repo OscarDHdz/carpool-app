@@ -12,6 +12,8 @@
 
     'toaster',
 
+    '720kb.datepicker',
+
 
 
     'app.carpool'

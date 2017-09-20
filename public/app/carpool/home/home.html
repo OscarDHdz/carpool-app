@@ -12,11 +12,11 @@
   <h1>Dashboard</h1>
   <div style="margin-top: 20px;">
     <h3 class="accordion-title">This week</h3>
-    <hr>
     <app-loading ng-if="!vm.tripsReady"></app-loading>
 
     <div class="animated fadeIn">
       <rowcalendar-component trips="vm.thisWeekTrips" ng-if="vm.tripsReady"></rowcalendar-component>
+      <div ng-show="!vm.thisWeekHasTrips"><h4 style="text-align: center;" class="content-margin">No Trip records...</h4></div>
       <div style="margin-top: 20px;" ng-if="vm.thisWeekHasTrips" >
         <expenses-component expenses="vm.thisWeekExpenses"></expenses-component>
       </div>
@@ -30,6 +30,7 @@
     </h3>
     <div ng-show="vm.showLastWeek" class="animated" ng-class="vm.showLastWeek ? 'fadeIn' : 'fadeOut'">
       <rowcalendar-component trips="vm.lastWeekTrips" ></rowcalendar-component>
+      <div ng-show="!vm.lastWeekHasTrips"><h4 style="text-align: center;" class="content-margin">No Trip records...</h4></div>
       <div style="margin-top: 20px;" ng-if="vm.lastWeekHasTrips">
         <expenses-component expenses="vm.lastWeekExpenses"></expenses-component>
       </div>

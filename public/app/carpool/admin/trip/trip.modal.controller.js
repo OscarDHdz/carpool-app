@@ -14,11 +14,11 @@
     vm.datepicker = {
       opened: false
     };
-    vm.format = 'yyyy-MM-dd';
 
     vm.dateOptions = {
        dateDisabled: false,
        formatYear: 'yy',
+       format: 'yyyy-MM-dd',
        maxDate: new Date(2020, 5, 22),
        minDate: new Date(2017, 6, 1),
        startingDay: 1

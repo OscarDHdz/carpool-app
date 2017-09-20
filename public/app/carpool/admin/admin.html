@@ -52,8 +52,11 @@
         </td>
       </tr>
     </tbody>
-  </table>
-  <pagination-component pagination="vm.tripsPagination"></pagination-component>
+    </table>
+    <div ng-show="vm.trips.length == 0 && vm.adminReady">
+      <h4 style="text-align: center;" class="content-margin">No Trip records...</h4>
+    </div>
+  <pagination-component pagination="vm.tripsPagination" ng-if="vm.trips.length > 0 && vm.adminReady"></pagination-component>
 
   <app-loading ng-if="!vm.adminReady"></app-loading>
 
@@ -88,6 +91,9 @@
         </tr>
       </tbody>
     </table>
+    <div ng-show="vm.users.length == 0 && vm.adminReady">
+      <h4 style="text-align: center;" class="content-margin">No User records...</h4>
+    </div>
     <app-loading ng-if="!vm.adminReady"></app-loading>
   </div>
 </div>
