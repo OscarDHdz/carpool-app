@@ -10,60 +10,61 @@
     font-size: 4vw;
   }
 </style>
-<h1>Admin Panel</h1>
 
-<!--  Trips -->
-<div class="row content-margin animated fadeIn" >
-  <div class="col-xs-12 col-md-12">
-    <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenTripModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
-    <h3>Trips</h3>
-    <hr>
-  </div>
-  <div class="col-xs-12 col-md-12 table-container">
-    <table class="people table table-striped" >
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Destiny</th>
-          <th>Cost</th>
-          <th>People</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody >
-        <tr ng-repeat="trip in vm.trips | orderBy : '-date' | limitTo: (vm.tripsPagination.pageItems * vm.tripsPagination.currentPage) | limitTo: -vm.getPageNegativeLimit(vm.trips, vm.tripsPagination.currentPage, vm.tripsPagination.pageItems)">
-          <td>{{ trip.date | date:'EEE MMM dd, yyyy' }}</td>
-          <td>{{ trip.destiny }}</td>
-          <td>${{ trip.cost }}</td>
-          <td >
-            <div class="persona" ng-repeat="traveler in trip.users_obj" style="background-color: {{traveler.color}};">
-              <span>{{traveler.firstname[0] + traveler.lastname[0]}}</span>
-            </div>
+<div class="container content-margin">
+  <h1>Admin Panel</h1>
+  <!--  Trips -->
+  <div class="row content-margin animated fadeIn" >
+    <div class="col-xs-12 col-md-12">
+      <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenTripModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
+      <h3>Trips</h3>
+      <hr>
+    </div>
+    <div class="col-xs-12 col-md-12 table-container">
+      <table class="people table table-striped" >
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Destiny</th>
+            <th>Cost</th>
+            <th>People</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr ng-repeat="trip in vm.trips | orderBy : '-date' | limitTo: (vm.tripsPagination.pageItems * vm.tripsPagination.currentPage) | limitTo: -vm.getPageNegativeLimit(vm.trips, vm.tripsPagination.currentPage, vm.tripsPagination.pageItems)">
+            <td>{{ trip.date | date:'EEE MMM dd, yyyy' }}</td>
+            <td>{{ trip.destiny }}</td>
+            <td>${{ trip.cost }}</td>
+            <td >
+              <div class="persona" ng-repeat="traveler in trip.users_obj" style="background-color: {{traveler.color}};">
+                <span>{{traveler.firstname[0] + traveler.lastname[0]}}</span>
+              </div>
+            </td>
+
+            <td>
+              <button ng-click="vm.OpenTripModal(trip)" class="btn btn-outline-primary" type="button" name="button"><i class="mi mi-edit"></i></button>
+              <button ng-click="vm.RemoveTrip(trip)" class="btn btn-outline-danger" type="button" name="button"><i class="mi mi-delete"></i></button>
+              <!-- <div class="">
+              <button ng-click="vm.DeleteTrip(trip)" class="btn btn-outline-danger" type="button" name="button"><i class="mi mi-cancel"></i></button>
+              <button ng-click="vm.DeleteTrip(trip)" class="btn btn-outline-success" type="button" name="button"><i class="mi mi-check"></i></button>
+            </div> -->
+
           </td>
-
-          <td>
-            <button ng-click="vm.OpenTripModal(trip)" class="btn btn-outline-primary" type="button" name="button"><i class="mi mi-edit"></i></button>
-            <button ng-click="vm.RemoveTrip(trip)" class="btn btn-outline-danger" type="button" name="button"><i class="mi mi-delete"></i></button>
-            <!-- <div class="">
-            <button ng-click="vm.DeleteTrip(trip)" class="btn btn-outline-danger" type="button" name="button"><i class="mi mi-cancel"></i></button>
-            <button ng-click="vm.DeleteTrip(trip)" class="btn btn-outline-success" type="button" name="button"><i class="mi mi-check"></i></button>
-          </div> -->
-
-        </td>
-      </tr>
-    </tbody>
+        </tr>
+      </tbody>
     </table>
     <div ng-show="vm.trips.length == 0 && vm.adminReady">
       <h4 style="text-align: center;" class="content-margin">No Trip records...</h4>
     </div>
-  <pagination-component pagination="vm.tripsPagination" ng-if="vm.trips.length > 0 && vm.adminReady"></pagination-component>
+    <pagination-component pagination="vm.tripsPagination" ng-if="vm.trips.length > 0 && vm.adminReady"></pagination-component>
 
-  <app-loading ng-if="!vm.adminReady"></app-loading>
+    <app-loading ng-if="!vm.adminReady"></app-loading>
 
-</div>
-</div>
-<!--  Users -->
-<div class="row content-margin animated fadeIn" >
+  </div>
+  </div>
+  <!--  Users -->
+  <div class="row content-margin animated fadeIn" >
   <div class="col-xs-12 col-md-12">
     <button style="float: right; margin-left: 15px;" type="button" ng-click="vm.OpenUserModal()" class="btn btn-outline-success" name="button"><i class="mi mi-add"></i></button>
     <h3>Users</h3>
@@ -96,5 +97,7 @@
     </div>
     <app-loading ng-if="!vm.adminReady"></app-loading>
   </div>
+</div>
+
 </div>
 <toaster-container></toaster-container>

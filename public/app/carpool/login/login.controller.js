@@ -2,12 +2,12 @@
   'use_strict';
 
   angular.module('app')
-    .controller('loginController', ['authService', loginController]);
+    .controller('loginController', ['$scope', '$location', 'authService', loginController]);
 
-  function loginController( authService ) {
+  function loginController( $scope, $location, authService ) {
     var vm = this;
-
-
+    vm.data = {}
+    vm.loading = false;
 
 
     function init() {
@@ -16,6 +16,21 @@
 
     }
 
+    vm.login = function () {
+      vm.loading = true;
+
+
+      authService.LogIn(vm.data)
+      .then(function ( auth ) {
+        vm.loading = false;
+        $location.path('/home');
+      })
+      .catch(function ( err ) {
+        vm.loading = false;
+        console.error(err);
+      })
+
+    }
 
     init();
 

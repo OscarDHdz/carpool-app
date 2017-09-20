@@ -2,9 +2,9 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('adminController', ['usersService', 'tripsService', '$uibModal', '$log', 'toaster', adminController]);
+    .controller('adminController', ['authService', '$location', 'usersService', 'tripsService', '$uibModal', '$log', 'toaster', adminController]);
 
-  function adminController( usersService, tripsService, $uibModal, $log, toaster) {
+  function adminController(authService, $location, usersService, tripsService, $uibModal, $log, toaster) {
     var vm = this;
     vm.users = [];
     vm.trips = [];
@@ -28,6 +28,11 @@
     function init() {
       console.log('adminController loaded');
 
+      if ( authService.data.granted !== true ) {
+        return $location.path('/login')
+      }
+
+
       usersService.getUsers()
       .then(function (users) {
         vm.users = users;
@@ -41,6 +46,8 @@
       .catch(function (err) {
         console.error(err);
       })
+
+
     }
 
     vm.OpenUserModal = function ( user ) {

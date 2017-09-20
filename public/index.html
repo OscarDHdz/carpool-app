@@ -9,23 +9,11 @@
 </head>
 <body ng-controller="mainController as vm">
 
+    <app-navbar ng-if="vm.auth.granted"></app-navbar>
 
+    <div ng-view></div>
 
-
-
-    <app-navbar></app-navbar>
-
-    <div class="container content-margin">
-      <div ng-view></div>
-    </div>
-
-    <footer-jumbotron></footer-jumbotron>
-
-
-
-
-
-
+    <footer-jumbotron ng-if="vm.auth.granted"></footer-jumbotron>
 
 
 

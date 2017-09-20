@@ -2,9 +2,9 @@
   'use_strict';
 
   angular.module('app.carpool')
-    .controller('homeController', ['usersService', 'tripsService', homeController]);
+    .controller('homeController', ['authService', '$location', 'usersService', 'tripsService', homeController]);
 
-  function homeController( usersService, tripsService ) {
+  function homeController( authService, $location, usersService, tripsService ) {
     var vm = this;
     vm.trips = {};
     vm.expenses = [];
@@ -22,6 +22,10 @@
 
     function init() {
       console.log('homeController loaded');
+
+      if ( authService.data.granted !== true ) {
+        return $location.path('/login')
+      }
 
       usersService.getUsers()
       .then(function ( users ) {

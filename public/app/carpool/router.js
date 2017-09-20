@@ -4,7 +4,7 @@
   angular.module('app.carpool', ['ngRoute'])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
+      .when('/home', {
         templateUrl: "app/carpool/home/home.html",
         controller: 'homeController',
         controllerAs: 'vm',
@@ -23,8 +23,10 @@
         activetab: 'login'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/home'
       });
     })
+
+
 
 })();
