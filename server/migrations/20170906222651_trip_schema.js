@@ -14,7 +14,9 @@ exports.up = function(knex, Promise) {
       table.timestamp('date')
         .defaultTo(knex.fn.now())
         .notNull()
-      table.timestamps(true, true)
+      table.timestamps(true, true);
+      table.boolean('active')
+      .defaultTo(true);
     }),
   ])
   .then((res) => {

@@ -1,6 +1,8 @@
 var _ = require('lodash');
 const TABLE_NAME = 'users';
-const ALLOWED_PARAMS = ['username', 'firstname', 'lastname', 'color', 'email'];
+const ALLOWED_PARAMS = ['username', 'firstname', 'password', 'lastname', 'color', 'email'];
+const PUBLIC_PARAMS = ['id','username', 'firstname', 'lastname', 'color', 'email']
+const bcrypt = require('bcryptjs');
 
 class User {
 
@@ -14,7 +16,7 @@ class User {
     this.color = '';
 
     if ( data ) {
-      for (var key in data) {
+      for (var key in this) {
         this[key] = data[key];
       }
     }
@@ -32,6 +34,30 @@ class User {
     return true;
   }
 
+  EncodePassword( ) {
+
+    var self = this;
+
+      return new Promise((resolve, reject) => {
+
+        bcrypt.genSalt(10, function(err, salt) {
+          bcrypt.hash(self.password, salt, function(err, hash) {
+            if (err)  {
+              console.log(err);
+              reject(err);
+            }
+            self.password = hash;
+            resolve(true);
+          });
+        });
+
+      })
+
+  }
+
+
+
 }
 
-module.exports = {User, TABLE_NAME, ALLOWED_PARAMS}
+
+module.exports = {User, TABLE_NAME, ALLOWED_PARAMS, PUBLIC_PARAMS}

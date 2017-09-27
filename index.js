@@ -2,6 +2,7 @@
 var express = require('express');
 var knex = require('./server/KnexDB.js');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 var app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,9 +20,8 @@ var TripsEndpoints = require('./server/endpoints/Trip');
 app.use('/_api/v1', TripsEndpoints);
 
 // AngularApp
-//app.use(express.static(__dirname + '/public'));
-// Bowe Components
-//app.use(express.static(__dirname + '/bower_components'));
+// app.use('/', express.static(path.join(__dirname + '/public')));
+
 
 // Validate Dabatabase connection and Start API --------------------------------
 knex.Validate()

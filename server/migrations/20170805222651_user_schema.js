@@ -19,11 +19,14 @@ exports.up = function(knex, Promise) {
       table.text('email')
         .defaultTo('')
         .notNull()
-        .unique()
+        .unique();
       table.text('token')
-        .defaultTo('')
-        .notNull()
-      table.timestamps(true, true)
+        .defaultTo('');
+      table.timestamps(true, true);
+      table.boolean('active')
+        .defaultTo(true);
+      table.boolean('password')
+        .notNull('');
     }),
   ])
   then((res) => {

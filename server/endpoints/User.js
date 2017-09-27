@@ -3,10 +3,10 @@ var knex = require('../KnexDB.js');
 var _ = require('lodash');
 var router = express.Router();
 
-var {User, TABLE_NAME, ALLOWED_PARAMS} = require('../models/User');
+var {User, TABLE_NAME, ALLOWED_PARAMS, PUBLIC_PARAMS} = require('../models/User');
 
 router.get('/users', (req, res) => {
-  knex(TABLE_NAME).select('*').where({active: true})
+  knex(TABLE_NAME).select(PUBLIC_PARAMS).where({active: true})
   .then((users) => {
     res.status(200).send({users})
   })
@@ -18,7 +18,7 @@ router.get('/users', (req, res) => {
 router.get('/users/:id', (req, res) => {
   var id = req.params.id;
   if ( +id ) {
-    knex(TABLE_NAME).select('*').where({id})
+    knex(TABLE_NAME).select(PUBLIC_PARAMS).where({id})
     .then((respnse) => {
       if ( respnse[0] ) res.status(200).send(respnse[0])
       else res.status(404).send({message: 'Not Found'});
@@ -35,13 +35,19 @@ router.get('/users/:id', (req, res) => {
 router.post('/users', (req, res) => {
 
   var data = _.pick(req.body, ALLOWED_PARAMS);
+  var password = data.password;
   var user = new User(data);
 
-
-  if ( user.Validate() ) {
+  if ( !password ) return res.status(400).send({message: 'Bad Input Data'});
+  if ( user.Validate()) {
+    // Prepare for insert
     delete user.id;
-
-    knex(TABLE_NAME).insert(user).returning('*')
+    user.password = password
+    user.token = '';
+    user.SetInsertFormat();
+    // Continue to insert
+    user.EncodePassword()
+    .then((res) => knex(TABLE_NAME).insert(user).returning(PUBLIC_PARAMS))
     .then((insertedData) => {
       if ( process.env.DB_CLIENT === 'sqlite3' ) return res.status(200).send({id: insertedData[0]});
       return res.status(200).send(insertedData[0])
@@ -50,6 +56,7 @@ router.post('/users', (req, res) => {
       console.log(err);
       return res.status(400).send({message: 'Existing email'});
     })
+
   }
   else return res.status(400).send({message: 'Bad Input Data'})
 
@@ -65,7 +72,7 @@ router.patch('/users/:id', (req, res) => {
   delete data.email;
 
   if ( +id ) {
-    knex(TABLE_NAME).update(data).where({id}).returning('*')
+    knex(TABLE_NAME).update(data).where({id}).returning(PUBLIC_PARAMS)
     .then((updatedData) => {
       if ( process.env.DB_CLIENT === 'sqlite3' ) return res.sendStatus(201);
       if ( updatedData[0] ) res.status(200).send(updatedData[0])
