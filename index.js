@@ -20,8 +20,8 @@ var TripsEndpoints = require('./server/endpoints/Trip');
 app.use('/_api/v1', TripsEndpoints);
 
 // AngularApp
-// app.use('/', express.static(path.join(__dirname + '/public')));
-
+app.use('/', express.static(path.join(__dirname + '/public')));
+console.log(path.join(__dirname + '/public'));
 
 // Validate Dabatabase connection and Start API --------------------------------
 knex.Validate()

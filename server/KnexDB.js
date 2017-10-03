@@ -47,13 +47,17 @@ var KeepValidatingConnection = ( success ) => {
 
     if ( success ) resolve(true);
 
-    knex.migrate.currentVersion()
-    .then((res) => resolve(true))
-    .catch((err) => {
-      console.log("[31m%s[0m", `# There was a problem with database connection. Retrying connection...`);
-      return KeepValidatingConnection(false);
-    })
-    .then((res2) => resolve(true))
+    setTimeout(function () {
+
+      knex.migrate.currentVersion()
+      .then((res) => resolve(true))
+      .catch((err) => {
+        console.log("[31m%s[0m", `# There was a problem with database connection. Retrying connection...`);
+        return KeepValidatingConnection(false);
+      })
+      .then((res2) => resolve(true))
+
+    }, 1000);
 
 
   })

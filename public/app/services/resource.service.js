@@ -4,7 +4,7 @@
   angular.module('app')
   .factory('resourceService', ['$resource', function ($resource) {
 
-    var REST_URL = 'http://localhost:3000/_api/v1/';
+    var REST_URL = '/_api/v1/';
 
     var getItems = function ( table, item ) {
       return $resource(REST_URL + table, {},
