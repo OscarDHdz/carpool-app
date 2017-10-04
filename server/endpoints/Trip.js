@@ -8,6 +8,8 @@ var {Trip, TABLE_NAME, ALLOWED_PARAMS} = require('../models/Trip');
 
 // var DESTINIES = ['Trabajo', 'Casa']
 
+router.use(require('../middleware/log'));
+
 router.get('/trips', (req, res) => {
 
   $scope = { users: null, trips: null }

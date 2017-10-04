@@ -1,5 +1,6 @@
-node_modules
 node_modules/
+**/bower_components/
+public/assets/libs/**
 **/**.log
-**.PNG
-README.md
+**.sqlite
+**.txt

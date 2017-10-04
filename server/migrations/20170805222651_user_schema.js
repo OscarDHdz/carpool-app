@@ -25,7 +25,7 @@ exports.up = function(knex, Promise) {
       table.timestamps(true, true);
       table.boolean('active')
         .defaultTo(true);
-      table.boolean('password')
+      table.text('password')
         .notNull('');
     }),
   ])

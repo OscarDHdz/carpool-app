@@ -27,6 +27,25 @@
         <input  name="username" required ng-model="vm.user.username" type="text" class="form-control" id="userUsername" placeholder="User's username">
       </div>
     </div>
+    <!--  Password -->
+    <div class="form-group">
+      <label class="sr-only" for="userPassword">Password</label>
+      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+        <div class="input-group-addon">Password</div>
+        <input  name="password" required ng-model="vm.user.password" type="password" class="form-control" id="userPassword" placeholder="****">
+      </div>
+    </div>
+    <!--  PasswordConfirmation -->
+    <div class="form-group">
+      <label class="sr-only" for="userPasswordConf">Password Confirmation</label>
+      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+        <div class="input-group-addon">Password Confirmation</div>
+        <input  name="passwordConf" required ng-model="vm.user.passwordConf" type="password" class="form-control" id="userPasswordConf" placeholder="****">
+      </div>
+      <div ng-if="!vm.ValidPassword" style="color: red;">
+        Password don't match
+      </div>
+    </div>
     <!--  Email -->
     <div class="form-group">
       <label class="sr-only" for="userEmail">Email</label>

@@ -5,6 +5,8 @@ var router = express.Router();
 
 var {User, TABLE_NAME, ALLOWED_PARAMS, PUBLIC_PARAMS} = require('../models/User');
 
+router.use(require('../middleware/log'));
+
 router.get('/users', (req, res) => {
   knex(TABLE_NAME).select(PUBLIC_PARAMS).where({active: true})
   .then((users) => {
@@ -35,7 +37,11 @@ router.get('/users/:id', (req, res) => {
 router.post('/users', (req, res) => {
 
   var data = _.pick(req.body, ALLOWED_PARAMS);
-  var password = data.password;
+  var password = req.body.password;
+  var passwordConf = req.body.passwordConf;
+
+  if ( password !== passwordConf ) return res.status(401).send({message: 'Passwords don\'t match'})
+
   var user = new User(data);
 
   if ( !password ) return res.status(400).send({message: 'Bad Input Data'});
@@ -44,7 +50,7 @@ router.post('/users', (req, res) => {
     delete user.id;
     user.password = password
     user.token = '';
-    user.SetInsertFormat();
+
     // Continue to insert
     user.EncodePassword()
     .then((res) => knex(TABLE_NAME).insert(user).returning(PUBLIC_PARAMS))

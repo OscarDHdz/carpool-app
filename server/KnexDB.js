@@ -2,7 +2,8 @@ var {env} = require('./configs/initconfig');
 var configs = require('./knexfile');
 var knex = require('knex')(configs[env]);
 
-process.env.VALIDATE_DB = 'ON'
+const DELAY_CONNECTION  = process.env.DELAY_CONNECTION || 1000;
+
 
 knex.Validate = ( ) => {
 
@@ -57,7 +58,7 @@ var KeepValidatingConnection = ( success ) => {
       })
       .then((res2) => resolve(true))
 
-    }, 1000);
+    }, DELAY_CONNECTION);
 
 
   })

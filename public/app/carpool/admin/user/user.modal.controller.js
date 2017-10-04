@@ -9,6 +9,7 @@
 
     vm.user;
     vm.newItem = true;
+    vm.ValidPassword = true;
 
     function init() {
       console.log('userModalController loaded');
@@ -17,18 +18,18 @@
     }
 
     vm.SubmitUser = function ( userModel ) {
-
+      vm.ValidPassword = true;
       if ( vm.newItem ) {
         usersService.CreateUser( userModel )
         .then(function ( userId ) {
           console.log('Created User');
           var submittedUser = new User(userModel);
           submittedUser.id = userId;
-          console.log('HERE', submittedUser);
           $uibModalInstance.close(submittedUser);
         })
         .catch(function ( err ) {
           console.error(err);
+          if ( err.status === 401 ) vm.ValidPassword = false;
         })
       }
       else {

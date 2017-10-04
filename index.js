@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware ------------------------------------------------------------------
 app.use(bodyParser.json());
 app.use(require('./server/middleware/enable-cors')(['GET', 'POST', 'PATCH', 'DELETE'], ['x-auth']));
-app.use(require('./server/middleware/log'));
+
 
 
 // Endpoints -------------------------------------------------------------------
@@ -18,10 +18,11 @@ var UserEndpoints = require('./server/endpoints/User');
 app.use('/_api/v1', UserEndpoints);
 var TripsEndpoints = require('./server/endpoints/Trip');
 app.use('/_api/v1', TripsEndpoints);
+var LoginEndpoints = require('./server/endpoints/Login');
+app.use('/_api/v1', LoginEndpoints);
 
 // AngularApp
 app.use('/', express.static(path.join(__dirname + '/public')));
-console.log(path.join(__dirname + '/public'));
 
 // Validate Dabatabase connection and Start API --------------------------------
 knex.Validate()
