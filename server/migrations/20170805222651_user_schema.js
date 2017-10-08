@@ -25,14 +25,12 @@ exports.up = function(knex, Promise) {
       table.timestamps(true, true);
       table.boolean('active')
         .defaultTo(true);
-      table.text('password')
-        .notNull('');
     }),
   ])
   then((res) => {
     if ( process.env.DB_CLIENT !== 'sqlite3' )
       knex.schema.raw(`
-        CREATE TRIGGER update_customer_modtime
+        CREATE TRIGGER update_user
         BEFORE UPDATE ON users
         FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();
       `)

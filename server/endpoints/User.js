@@ -37,23 +37,16 @@ router.get('/users/:id', (req, res) => {
 router.post('/users', (req, res) => {
 
   var data = _.pick(req.body, ALLOWED_PARAMS);
-  var password = req.body.password;
-  var passwordConf = req.body.passwordConf;
-
-  if ( password !== passwordConf ) return res.status(401).send({message: 'Passwords don\'t match'})
 
   var user = new User(data);
 
-  if ( !password ) return res.status(400).send({message: 'Bad Input Data'});
   if ( user.Validate()) {
     // Prepare for insert
     delete user.id;
-    user.password = password
     user.token = '';
 
     // Continue to insert
-    user.EncodePassword()
-    .then((res) => knex(TABLE_NAME).insert(user).returning(PUBLIC_PARAMS))
+    knex(TABLE_NAME).insert(user).returning(PUBLIC_PARAMS)
     .then((insertedData) => {
       if ( process.env.DB_CLIENT === 'sqlite3' ) return res.status(200).send({id: insertedData[0]});
       return res.status(200).send(insertedData[0])

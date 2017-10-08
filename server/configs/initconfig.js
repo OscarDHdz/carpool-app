@@ -8,7 +8,7 @@ for (var variable in CONFIGS) {
 console.log("[36m%s[0m", `# Running API Configuraction...`);
 
 console.log(`  OK - Using environment: [35m${process.env.NODE_ENV}[0m`);
-// Database Environment
+// Postgres/SQLite validation
 if ( process.env.DB_CLIENT ) {
   console.log(`  OK - Database Client: [35m${process.env.DB_CLIENT}[0m`);
 
@@ -46,8 +46,34 @@ else {
   console.log("[31m%s[0m", `  ERROR - No DB_CLIENT provided`);
   throw `Missing DB_CLIENT environment variable`
 }
-
-
+// Admin Auth Validation
+if ( process.env.ADMIN_USER ) {
+  if ( process.env.ADMIN_PASS ) {
+    console.log(`  OK - Using custom Admin credential for: [35m${process.env.ADMIN_USER}[0m`);
+  }
+  else {
+    console.log("[31m%s[0m", `  ERROR - No ADMIN_PASS provided`);
+    throw `Missing ADMIN_PASS environment variable`
+  }
+}
+else {
+  console.log(`  OK - Using default Admin credential: [35m${'admin'}[0m`);
+  process.env.ADMIN_USER = process.env.ADMIN_PASS = 'admin';
+}
+// Public Auth Validation
+if ( process.env.PUBLIC_USER ) {
+  if ( process.env.PUBLIC_PASS ) {
+    console.log(`  OK - Using custom Public credential for: [35m${process.env.PUBLIC_USER}[0m`);
+  }
+  else {
+    console.log("[31m%s[0m", `  ERROR - No PUBLIC_PASS provided`);
+    throw `Missing PUBLIC_PASS environment variable`
+  }
+}
+else {
+  console.log(`  OK - Using default Public credential: [35m${'user'}[0m`);
+  process.env.PUBLIC_USER = process.env.PUBLIC_PASS = 'user';
+}
 
 
 
