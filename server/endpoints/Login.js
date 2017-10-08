@@ -5,20 +5,32 @@ var router = express.Router();
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
-var {User, TABLE_NAME, ALLOWED_PARAMS} = require('../models/User');
+const TABLE_NAME = 'auth';
+
+
 router.use(require('../middleware/log'));
 
 router.post('/login', (req, res) => {
 
-  var cred = _.pick(req.body, ['username', 'password']);
+  var cred = _.pick(req.body, ['user', 'password']);
   // var user = new User(cred);
+  if ( !cred.user || !cred.password ) return res.status(400).send({message: 'Bad input Data'});
 
-  if ( cred.username === 'admin' && cred.password === 'admin' )
-    return res.status(200).send({message: 'Welcome'})
-  else
-    return res.sendStatus(403);
+  knex(TABLE_NAME).select('*').where({auth: cred.user})
+  .then((storedCred) => {
+    if ( !storedCred[0] ) return false
 
-
+    return bcrypt.compare(cred.password, storedCred[0].password);
+  })
+  .then((hashResponse) => {
+    if ( hashResponse === false ) return res.status(404).send({message: 'Credential nor found'})
+    // Send Token!
+    return res.status(200).send({hashResponse})
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send({message: err})
+  })
 
 
 })
