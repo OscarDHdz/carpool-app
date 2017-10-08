@@ -22,7 +22,7 @@ var LoginEndpoints = require('./server/endpoints/Login');
 app.use('/_api/v1', LoginEndpoints);
 
 // AngularApp
-app.use('/', express.static(path.join(__dirname + '/public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // Validate Dabatabase connection and Start API --------------------------------
 knex.Validate()
