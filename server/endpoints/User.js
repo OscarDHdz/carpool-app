@@ -4,10 +4,11 @@ var _ = require('lodash');
 var router = express.Router();
 
 var {User, TABLE_NAME, ALLOWED_PARAMS, PUBLIC_PARAMS} = require('../models/User');
+var {authenticate, authenticateAdmin} = require('../middleware/authenticate');
 
 router.use(require('../middleware/log'));
 
-router.get('/users', (req, res) => {
+router.get('/users', authenticate, (req, res) => {
   knex(TABLE_NAME).select(PUBLIC_PARAMS).where({active: true})
   .then((users) => {
     res.status(200).send({users})
@@ -16,8 +17,7 @@ router.get('/users', (req, res) => {
     res.status(400).send(err);
   })
 })
-
-router.get('/users/:id', (req, res) => {
+router.get('/users/:id', authenticate, (req, res) => {
   var id = req.params.id;
   if ( +id ) {
     knex(TABLE_NAME).select(PUBLIC_PARAMS).where({id})
@@ -34,7 +34,7 @@ router.get('/users/:id', (req, res) => {
   }
 })
 
-router.post('/users', (req, res) => {
+router.post('/users', authenticateAdmin, (req, res) => {
 
   var data = _.pick(req.body, ALLOWED_PARAMS);
 
@@ -61,8 +61,7 @@ router.post('/users', (req, res) => {
 
 
 })
-
-router.patch('/users/:id', (req, res) => {
+router.patch('/users/:id', authenticateAdmin, (req, res) => {
   var id = req.params.id;
   var data = _.pick(req.body, ALLOWED_PARAMS);
 
@@ -85,8 +84,7 @@ router.patch('/users/:id', (req, res) => {
     res.status(400).send({message: 'Invalid Id'})
   }
 })
-
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', authenticateAdmin, (req, res) => {
     var id = req.params.id;
 
     if ( +id >= 0 ) {

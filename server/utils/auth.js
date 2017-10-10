@@ -26,11 +26,10 @@ var GenerateToken = ( credential ) => {
   return new Promise((resolve, reject) => {
     var expirationDate = new Date();
     expirationDate.setHours( expirationDate.getHours() + 1 );
-
     var payload = {
       data: credential,
       type: 'auth',
-      epx: expirationDate.getTime()
+      exp: expirationDate.getTime()
     }
 
     resolve(jwt.sign(payload, process.env.JWT_SECRET));
@@ -56,4 +55,4 @@ var VerifyToken = ( token ) => {
 
 }
 
-module.exports = { EncodePassword, GenerateToken }
+module.exports = { EncodePassword, GenerateToken, VerifyToken }

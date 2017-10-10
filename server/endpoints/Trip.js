@@ -5,12 +5,13 @@ var router = express.Router();
 var moment = require('moment');
 
 var {Trip, TABLE_NAME, ALLOWED_PARAMS} = require('../models/Trip');
+var {authenticate, authenticateAdmin} = require('../middleware/authenticate');
 
 // var DESTINIES = ['Trabajo', 'Casa']
 
 router.use(require('../middleware/log'));
 
-router.get('/trips', (req, res) => {
+router.get('/trips', authenticate, (req, res) => {
 
   $scope = { users: null, trips: null }
 
@@ -49,8 +50,24 @@ router.get('/trips', (req, res) => {
     res.status(400).send(err);
   })
 })
+router.get('/trips/:id', authenticate, (req, res) => {
+  var id = req.params.id;
+  if ( +id ) {
+    knex(TABLE_NAME).select('*').where({id})
+    .then((respnse) => {
+      if ( respnse[0] ) res.status(200).send(respnse[0])
+      else res.status(404).send({message: 'Not Found'});
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
+  }
+  else {
+    res.status(400).send({message: 'Invalid Id'})
+  }
+})
 
-router.post('/trips', (req, res) => {
+router.post('/trips', authenticateAdmin, (req, res) => {
 
   var data = _.pick(req.body, ['users', 'date', 'cost', 'destiny']);
 
@@ -85,25 +102,7 @@ router.post('/trips', (req, res) => {
 
 
 })
-
-router.get('/trips/:id', (req, res) => {
-  var id = req.params.id;
-  if ( +id ) {
-    knex(TABLE_NAME).select('*').where({id})
-    .then((respnse) => {
-      if ( respnse[0] ) res.status(200).send(respnse[0])
-      else res.status(404).send({message: 'Not Found'});
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    })
-  }
-  else {
-    res.status(400).send({message: 'Invalid Id'})
-  }
-})
-
-router.patch('/trips/:id', (req, res) => {
+router.patch('/trips/:id', authenticateAdmin, (req, res) => {
   var id = req.params.id;
   var data = _.pick(req.body, ALLOWED_PARAMS);
 
@@ -130,8 +129,7 @@ router.patch('/trips/:id', (req, res) => {
     res.status(400).send({message: 'Invalid Id'})
   }
 })
-
-router.delete('/trips/:id', (req, res) => {
+router.delete('/trips/:id', authenticateAdmin, (req, res) => {
     var id = req.params.id;
     if ( +id >= 0 ) {
       knex(TABLE_NAME).where({id}).del()
