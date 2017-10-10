@@ -9,21 +9,24 @@ var db_dbname   = process.env.DB_NAME   || 'db_api';
 
 var db_file     = process.env.DB_FILE + '.sqlite'  || 'test.sqlite';
 
-module.exports = {
-  development: {
-    client: db_client,
-    connection: {
-      host : db_host,
-      user : db_user,
-      password : db_password,
-      database : db_dbname,
-      filename: './database/' + db_file
-    },
-    migrations: {
-      directory: __dirname + '/migrations'
-    },
-    seeds: {
-      directory: __dirname + '/seeds'
-    }
+var configuration = {
+  client: db_client,
+  connection: {
+    host : db_host,
+    user : db_user,
+    password : db_password,
+    database : db_dbname,
+    filename: './database/' + db_file
+  },
+  migrations: {
+    directory: __dirname + '/migrations'
+  },
+  seeds: {
+    directory: __dirname + '/seeds'
   }
+}
+
+module.exports = {
+  development: configuration,
+  production: configuration
 }

@@ -1,4 +1,4 @@
-var {EncodePassword} = require('../utils/password');
+var {EncodePassword} = require('../utils/auth');
 
 const ADMIN_USER = process.env.ADMIN_USER;
 const ADMIN_PASS  = process.env.ADMIN_PASS;

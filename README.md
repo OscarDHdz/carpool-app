@@ -5,9 +5,9 @@ Under construction...
 
 ## Development (Standalone Web Service)
 ### Quick setup
-This project run with bower dependencies, so make sure you have Is installed. Else:
+This project run with bower dependencies and GulpJS Tasks, so make sure you have them installed. Else:
 ```
-npm install bower -g
+npm install bower gulp-cli -g
 ```
 1. Install Back-end dependencies
 ```
@@ -17,9 +17,9 @@ npm install
 ```
 bower install
 ```
-3. Start ExpressJS web Service
+3. Start ExpressJS Web Service
 ```
-npm start
+npm run start-dev
 ```
 
 4. Wait for terminal to finish setup and enjoy at: `localhost:3000`
@@ -35,7 +35,7 @@ If you want your bower to be automatically updated when any front-end file is up
 ```
 npm start
 ```
-2. Run Browser-sync on another terminal with this:
+2. Run Browser-sync in one another terminal with:
 ```
 npm run serve
 ```
