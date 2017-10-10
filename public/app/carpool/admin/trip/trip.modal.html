@@ -134,7 +134,7 @@
   <div class="modal-footer">
     <!--  Buttons -->
     <div class="form-group" style="text-align: right;">
-      <button type="button" name="button" class="btn btn-outline-danger" ng-click="vm.CloseModal()">Clear</button>
+      <button type="button" name="button" class="btn btn-outline-danger" ng-click="vm.CloseModal()">Cancel</button>
       <button ng-disabled="!tripForm.$valid || vm.trip.users.length == 0" type="button" ng-click="vm.SubmitTrip(vm.trip)" name="button" class="btn btn-outline-primary">{{ vm.newItem ? 'Create' : 'Save' }}</button>
     </div>
   </div>
