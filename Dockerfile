@@ -11,5 +11,6 @@ ENV NODE_ENV=production VALIDATE_DB=ON DELAY_CONNECTION=1000 DB_CLIENT=sqlite3 D
 EXPOSE 3000
 
 RUN npm install
+RUN bower install
 
 CMD ["npm", "start"]
