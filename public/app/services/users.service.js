@@ -2,7 +2,7 @@
   'use_strict';
 
   angular.module('app')
-  .factory('usersService', ['$q', 'resourceService', function ($q, resourceService) {
+  .factory('usersService', ['$q', 'resourceService', 'authService', function ($q, resourceService, authService) {
 
     var data = {
       users: {}
@@ -13,7 +13,7 @@
 
       if ( Object.keys(data.users).length > 0 ) deferred.resolve(data.users);
       else {
-        var resource = resourceService.getItems('users');
+        var resource = resourceService.getItems('users', null, authService.data.token);
         resource.get({},function ( response ) {
           console.log('Retrived users data:', response);
           data.users = response.users;
@@ -31,7 +31,7 @@
     var CreateUser = function ( user ) {
       var deferred = $q.defer();
 
-        var resource = resourceService.getItems('users');
+        var resource = resourceService.getItems('users', null, authService.data.token);
         resource.post({}, user, function ( response ) {
           console.log('Submitted user data:', response);
           deferred.resolve(response.id);
@@ -45,7 +45,7 @@
     var SaveUser = function ( user ) {
       var deferred = $q.defer();
 
-        var resource = resourceService.getItems('users', user);
+        var resource = resourceService.getItems('users', user, authService.data.token);
         resource.patch({}, user, function ( response ) {
           console.log('Updated user data:', response);
           deferred.resolve(true);
@@ -60,7 +60,7 @@
 
       var deferred = $q.defer();
 
-        var resource = resourceService.getItems('users', user);
+        var resource = resourceService.getItems('users', user, authService.data.token);
         resource.delete({}, user, function ( response ) {
           console.log('Removed user data:', response);
           deferred.resolve(true);

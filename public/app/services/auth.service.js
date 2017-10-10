@@ -6,6 +6,7 @@
 
     var data = {
       granted: false,
+      token: null
     }
 
     var LogIn = function ( credential ) {
