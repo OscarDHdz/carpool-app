@@ -25,7 +25,7 @@ router.post('/login', (req, res) => {
   .then((hashResponse) => {
     if ( hashResponse === false ) return res.status(404).send({message: 'Credential nor found'})
     // Send Token!
-    return res.status(200).send({hashResponse})
+    return res.status(200).send({granted: hashResponse, token: 'anyToken'})
   })
   .catch((err) => {
     console.error(err);

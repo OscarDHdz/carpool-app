@@ -12,18 +12,20 @@
 
       var deferred = $q.defer();
 
-      setTimeout(function () {
 
-        if ( credential.username === 'admin' && credential.password === 'admin' ) {
-          data.granted = true;
-          deferred.resolve(true);
-        }
-        else {
-          data.granted = false;
-          deferred.reject(false);
-        }
+      var resource = resourceService.getItems('login');
 
-      }, 1000);
+      resource.post({}, credential, function (authResponse) {
+        console.log(data);
+        data.granted = authResponse.granted;
+        data.token = authResponse.token;
+        deferred.resolve(true);
+      }, function (err) {
+        console.error(err);
+        data.granted = false;
+        deferred.resolve(false);
+      })
+
 
       return deferred.promise;
 

@@ -19,7 +19,6 @@
     vm.login = function () {
       vm.loading = true;
 
-
       authService.LogIn(vm.data)
       .then(function ( auth ) {
         vm.loading = false;
