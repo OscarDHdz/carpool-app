@@ -10,7 +10,6 @@ module.exports = ( extraMethods, extraHeaders ) => {
   if ( Array.isArray(extraHeaders) ) allowedHeaders = allowedHeaders.concat(extraHeaders);
   else allowedHeaders.push(extraHeaders);
 
-  console.log( JSON.stringify(allowedHeaders, undefined, 2) );
 
   var EnableCors = ( req, res, next ) => {
 
