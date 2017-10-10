@@ -4,3 +4,4 @@ public/assets/libs/**
 **/**.log
 **.sqlite
 **.txt
+**/**.**.templated.**

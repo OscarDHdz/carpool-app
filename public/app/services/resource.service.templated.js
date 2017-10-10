@@ -1,14 +1,10 @@
-var Template = ( binds ) => {
-
-
-  return `
-  (function () {
+(function () {
     'use_strict';
 
     angular.module('app')
     .factory('resourceService', ['$resource', function ($resource) {
 
-      var REST_URL = '${binds.REST_URL}/_api/v1/';
+      var REST_URL = '/_api/v1/';
 
       var getItems = function ( table, item, token ) {
         return $resource(REST_URL + table, {},
@@ -56,9 +52,4 @@ var Template = ( binds ) => {
 
   })();
 
-  `
-
-}
-
-
-module.exports = {Template}
+  
