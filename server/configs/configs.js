@@ -13,7 +13,9 @@ module.exports = {
     ADMIN_USER: process.env.ADMIN_USER || 'admin',
     ADMIN_PASS: process.env.ADMIN_PASS || 'admin',
     PUBLIC_USER: process.env.PUBLIC_USER || 'user',
-    PUBLIC_PASS:process.env.PUBLIC_PASS || 'user'
+    PUBLIC_PASS: process.env.PUBLIC_PASS || 'user',
+    JWT_SECRET: process.env.JWT_SECRET || 'qwerty'
+
   }
 
 }

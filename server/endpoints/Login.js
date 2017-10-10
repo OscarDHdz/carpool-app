@@ -2,8 +2,8 @@ var express = require('express');
 var knex = require('../KnexDB.js');
 var _ = require('lodash');
 var router = express.Router();
+var {GenerateToken} = require('../utils/auth');
 const bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
 
 const TABLE_NAME = 'auth';
 
@@ -24,8 +24,11 @@ router.post('/login', (req, res) => {
   })
   .then((hashResponse) => {
     if ( hashResponse === false ) return res.status(404).send({message: 'Credential nor found'})
-    // Send Token!
-    return res.status(200).send({granted: hashResponse, token: 'anyToken'})
+    // Gen Token!
+    return GenerateToken(cred);
+  })
+  .then((token) => {
+    return res.status(200).send({granted: true, token})  
   })
   .catch((err) => {
     console.error(err);
