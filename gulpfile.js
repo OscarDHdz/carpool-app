@@ -1,26 +1,10 @@
 var gulp = require('gulp');
 var fs = require('fs');
-var dev = require('browser-sync').create();
 const argv = require('yargs').argv
 
 const ENV = argv.environment || argv.env;
 const PORT = argv.port;
 
-// gulp.task('serve', function() {
-//     dev.init({
-//         server: {
-//             baseDir: "public/"
-//         },
-//         port: 8080
-//     });
-//
-//      gulp.watch("public/**/**.**", ['reload']);
-// });
-//
-// gulp.task('reload', function (done) {
-//     dev.reload();
-//     done();
-// });
 
 gulp.task('frontend', function (done) {
 
