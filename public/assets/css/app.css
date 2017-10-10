@@ -29,6 +29,7 @@
   border-bottom: 1px solid #ccc;
   margin-bottom: 2px;
   padding-left: 4px;
+  font-size: 1.3vw;
 }
 .week-day h6  {
   margin-top: 7px;
@@ -99,7 +100,7 @@ and (max-width: 467px) {
     font-size: 6.4vw !important;
   }
   .users-input {
-     min-height: 15vw; 
+     min-height: 15vw;
   }
   .persona-expense table .persona-name,
   .persona-expense table .persona-owes {
@@ -111,6 +112,9 @@ and (max-width: 467px) {
   }
   .week {
     min-width: 800px;
+  }
+  .day-data-title {
+    font-size: 4.3vw;
   }
 
   .table-container {
