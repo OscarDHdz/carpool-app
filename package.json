@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "serve": "npm run build-dev && browser-sync start --server \"public\" --files \"public/**/**\" --port 8080",
     "start-prod": "npm run build-prod && nodemon index.js",
     "start-dev": "npm run build-dev && nodemon index.js",
+    "serve": "npm run build-dev && browser-sync start --server \"public\" --files \"public/**/**\" --port 8080",
     "build-prod": "gulp frontend --env prod",
     "build-dev": "gulp frontend --env dev --port 3000",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,18 +21,17 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "gulp": "^3.9.1",
     "jsonwebtoken": "^8.0.1",
     "knex": "^0.13.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "nodemon": "^1.11.0",
     "pg": "^7.3.0",
-    "sqlite3": "^3.1.10",
-    "yargs": "^9.0.1"
+    "sqlite3": "^3.1.10"
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
     "yargs": "^9.0.1"
   }
 }
