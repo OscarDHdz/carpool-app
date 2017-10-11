@@ -7,8 +7,7 @@ pipeline {
       agent {
         docker {
           image 'oscardhdz/node-bower-gulp:alpine'
-          args ''
-          additionalBuildArgs '--pull'
+          args '--pull'
         }
       }
       steps {
