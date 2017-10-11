@@ -17,6 +17,7 @@ pipeline {
           image '$AGENT_BUILD_CONTAINER'
           args ''
         }
+        customWorkspace '$WORKSPACE'
       }
       steps {
         sh 'npm install'
