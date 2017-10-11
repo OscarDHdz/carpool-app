@@ -1,11 +1,12 @@
 pipeline {
   agent any
   stages {
-    stage('Build'){
 
+
+    stage('Build'){
       agent {
         docker {
-          image 'oscardhdz/node-bower-gulp:alpine',
+          image 'oscardhdz/node-bower-gulp:alpine'
           args ''
         }
       }
@@ -13,10 +14,9 @@ pipeline {
         sh 'ls'
         sh 'npm install'
       }
-
-
-
     }
+
+
   }
 
 }
