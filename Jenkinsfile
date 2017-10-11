@@ -11,8 +11,9 @@ pipeline {
         }
       }
       steps {
-        sh 'ls'
         sh 'npm install'
+        sh 'bower install'
+        sh 'npm run build-prod'
       }
     }
 
