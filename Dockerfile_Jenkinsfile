@@ -8,7 +8,20 @@ RUN mkdir -p /home/app
 
 WORKDIR /home/app
 
-COPY . .
+# Node
+COPY package.json   .
+COPY index.js       .
+
+# Front-end
+COPY ./public       ./public
+
+# Back-end
+COPY ./server       ./server
+COPY ./node_modules ./node_modules
+
+# SQLite3 file PATH
+RUN mkdir -p /home/app/database
+
 
 ENV NODE_ENV=production VALIDATE_DB=ON DELAY_CONNECTION=1000 DB_CLIENT=sqlite3 DB_FILE=database ADMIN_USER=admin ADMIN_PASS=admin PUBLIC_USER=user PUBLIC_PASS=user PORT=3000 VALIDATE_DB=ON
 
