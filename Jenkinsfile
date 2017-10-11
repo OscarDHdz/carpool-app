@@ -13,7 +13,7 @@ pipeline {
     stage('Build'){
       agent {
         docker {
-          image env.BUILD_CONTINAER
+          image '$BUILD_CONTINAER'
           args '--pull'
         }
       }
