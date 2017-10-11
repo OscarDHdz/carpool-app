@@ -3,6 +3,7 @@ pipeline {
   environment {
     AGENT_BUILD_CONTAINER = 'oscardhdz/node-bower-gulp:alpine'
     ARTIFACT_DOCKER_IMAGE = 'oscardhdz/carpool:latest'
+    INITIAL_WORKSPACE = '$WORKSPACE'
   }
   stages {
 
@@ -15,23 +16,18 @@ pipeline {
       agent {
         docker {
           image '$AGENT_BUILD_CONTAINER'
-          args ''
+          args '-v var/jenkins'
+          customeWorkspace '$INITIAL_WORKSPACE'
         }
       }
       steps {
         sh 'npm install'
         sh 'bower install --allow-root'
         sh 'npm run build-prod'
-        sh 'BUILD_WORKSPACE=$WORKSPACE'
-        sh 'echo $BUILD_WORKSPACE'
       }
     }
     stage ('Build Docker Image') {
       steps {
-        sh 'pwd'
-        sh 'ls -lh'
-        sh 'echo $WORKSPACE'
-        sh 'echo $BUILD_WORKSPACE'
         sh 'docker build -t $ARTIFACT_DOCKER_IMAGE -f Dockerfile_Jenkinsfile .'
       }
     }
