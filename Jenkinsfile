@@ -8,6 +8,7 @@ pipeline {
         docker {
           image 'oscardhdz/node-bower-gulp:alpine'
           args ''
+          additionalBuildArgs '--pull'
         }
       }
       steps {
