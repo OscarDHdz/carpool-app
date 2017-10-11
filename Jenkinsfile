@@ -14,7 +14,7 @@ pipeline {
       agent {
         docker {
           image '$BUILD_CONTINAER'
-          args '--pull'
+          args ''
         }
       }
       steps {
