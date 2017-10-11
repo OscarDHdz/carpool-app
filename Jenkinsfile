@@ -9,6 +9,7 @@ pipeline {
 
     stage('Preparation') {
       steps {
+        deleteDir()
         sh 'docker pull $AGENT_BUILD_CONTAINER'
       }
     }
