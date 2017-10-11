@@ -37,7 +37,7 @@ pipeline {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 sh 'echo uname=$USERNAME pwd=$PASSWORD'
                 sh 'docker login -u $USERNAME -p $PASSWORD'
-                // sh 'docker push $ARTIFACT_DOCKER_IMAGE'
+                sh 'docker push $ARTIFACT_DOCKER_IMAGE'
                 sh 'docker logout'
             }
         }
