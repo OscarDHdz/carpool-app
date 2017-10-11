@@ -17,7 +17,7 @@ pipeline {
         docker {
           image '$AGENT_BUILD_CONTAINER'
           args '-v var/jenkins'
-          customeWorkspace '$INITIAL_WORKSPACE'
+          customWorkspace '${INITIAL_WORKSPACE}'
         }
       }
       steps {
