@@ -14,8 +14,8 @@ COPY index.js       .
 
 # Front-end
 COPY ./public       ./public
-COPY ./bower.json   .
-COPY .bowerrc       .
+#COPY ./bower.json   .
+#COPY .bowerrc       .
 
 # Back-end
 COPY ./server       ./server
