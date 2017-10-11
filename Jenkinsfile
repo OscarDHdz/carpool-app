@@ -30,6 +30,8 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'ls -lh'
+        sh 'echo $WORKSPACE'
+        sh 'echo $BUILD_WORKSPACE'
         sh 'docker build -t $ARTIFACT_DOCKER_IMAGE -f Dockerfile_Jenkinsfile .'
       }
     }
