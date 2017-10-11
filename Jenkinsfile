@@ -16,13 +16,14 @@ pipeline {
         docker {
           image '$AGENT_BUILD_CONTAINER'
           args ''
-          customWorkspace '$WORKSPACE'
         }
       }
       steps {
         sh 'npm install'
         sh 'bower install --allow-root'
         sh 'npm run build-prod'
+        sh 'BUILD_WORKSPACE=$WORKSPACE'
+        sh 'echo $BUILD_WORKSPACE'
       }
     }
     stage ('Build Docker Image') {
