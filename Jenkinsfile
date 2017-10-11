@@ -15,9 +15,9 @@ pipeline {
     stage('Build Project'){
       agent {
         docker {
+          reuseNode true 
           image '$AGENT_BUILD_CONTAINER'
           args '-v var/jenkins'
-          customWorkspace '${INITIAL_WORKSPACE}'
         }
       }
       steps {
