@@ -1,19 +1,20 @@
 pipeline {
   agent any
   environment {
-    BUILD_CONTINAER = 'oscardhdz/node-bower-gulp:alpine'
+    AGENT_BUILD_CONTAINER = 'oscardhdz/node-bower-gulp:alpine'
+    ARTIFACT_IMAGE = 'oscardhdz/carpool:latest'
   }
   stages {
 
     stage('Preparation') {
       steps {
-        sh 'docker pull $BUILD_CONTINAER'
+        sh 'docker pull $AGENT_BUILD_CONTAINER'
       }
     }
     stage('Build'){
       agent {
         docker {
-          image '$BUILD_CONTINAER'
+          image '$AGENT_BUILD_CONTAINER'
           args ''
         }
       }
@@ -21,6 +22,11 @@ pipeline {
         sh 'npm install'
         sh 'bower install --allow-root'
         sh 'npm run build-prod'
+      }
+    }
+    stage ('Dockerize') {
+      steps {
+        sh 'docker build -t $ARTIFACT_IMAGE -f Dockerfile_Jenkinsfile .'
       }
     }
 

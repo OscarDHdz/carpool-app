@@ -1,8 +1,12 @@
+# This is the "Quick Start" Dockerfile. It contains gulp, bower, and
+# RAW dependencies. For a more light/prod container, refer to "Dockerfile_Jenkinsfile"
+# as that one is Used by Jenkins CI/CD pipeline.
+
 FROM monostream/nodejs-gulp-bower
 
-RUN mkdir -p /home/api
+RUN mkdir -p /home/app
 
-WORKDIR /home/api
+WORKDIR /home/app
 
 COPY . .
 
