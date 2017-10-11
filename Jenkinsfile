@@ -2,11 +2,15 @@ pipeline {
   agent any
   stages {
 
-
+    stage('Preparation') {
+      steps {
+        sh 'docker pull $BUILD_CONTINAER'
+      }
+    }
     stage('Build'){
       agent {
         docker {
-          image 'oscardhdz/node-bower-gulp:alpine'
+          image '${env.BUILD_CONTINAER}'
           args '--pull'
         }
       }
@@ -18,6 +22,9 @@ pipeline {
     }
 
 
+  }
+  environment {
+    BUILD_CONTINAER = 'oscardhdz/node-bower-gulp:alpine'
   }
 
 }
