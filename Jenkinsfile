@@ -53,7 +53,7 @@ pipeline {
                 sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker rm -f $PROD_CONTAINER_NAME"'
             }
             catch (err) {
-                sh 'Docker: Unexisting container: $PROD_CONTAINER_NAME'
+                sh 'echo Docker: Unexisting container: $PROD_CONTAINER_NAME'
             }
         }
         sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker pull $DOCKER_IMAGE_NAME && docker run -d --network=nginx-proxy -p 3000:3000 --name=carpool  -e VIRTUAL_HOST=$TARGET_HOST -e VIRTUAL_NETWORK=nginx-proxy -e VIRTUAL_PORT=3000  -e LETSENCRYPT_HOST=$TARGET_HOST -e LETSENCRYPT_EMAIL=oscardavid.hernandez.mx@gmail.com  $ARTIFACT_DOCKER_IMAGE"'
