@@ -64,7 +64,8 @@ pipeline {
                 docker run -d --network=nginx-proxy -p 3000:3000 --name=carpool  \
                 -e VIRTUAL_HOST=$TARGET_HOST -e VIRTUAL_NETWORK=nginx-proxy -e VIRTUAL_PORT=3000 \
                 -e LETSENCRYPT_HOST=$TARGET_HOST -e LETSENCRYPT_EMAIL=oscardavid.hernandez.mx@gmail.com  \
-                -e ADMIN_USER=$ADMIN_USER -e ADMIN_PASS=$ADMIN_PASSWORD -e PUBLIC_USER=$PUBLIC_USER -e PUBLIC_PASS=$PUBLIC_PASSWORD \
+                -e ADMIN_USER=$ADMIN_USER -e ADMIN_PASS=$ADMIN_PASSWORD \
+                -e PUBLIC_USER=$PUBLIC_USER -e PUBLIC_PASS=$PUBLIC_PASSWORD \
                 $ARTIFACT_DOCKER_IMAGE"'
               }
             }
