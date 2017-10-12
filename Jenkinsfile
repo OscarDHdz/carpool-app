@@ -60,8 +60,8 @@ pipeline {
         }
         script {
           try {
-            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME)" && \
-            if [ "$VAL" != "running" ]; then docker run \
+            /*sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME)" && \*/
+            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker run \
             --name $POSTGRES_CONTAINER_NAME \
             -p 5432:5432 \
             -v $POSTGRES_CONTAINER_NAME:/var/lib/postgresql/data \
