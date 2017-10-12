@@ -60,6 +60,7 @@ pipeline {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'admin-app-user', usernameVariable: 'ADMIN_USER', passwordVariable: 'ADMIN_PASSWORD']]) {
               withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'public-app-user', usernameVariable: 'PUBLIC_USER', passwordVariable: 'PUBLIC_PASSWORD']]) {
                 sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker pull $ARTIFACT_DOCKER_IMAGE && \
+                -v carpool:/home/app \
                 docker run -d --network=nginx-proxy -p 3000:3000 --name=carpool  \
                 -e VIRTUAL_HOST=$TARGET_HOST -e VIRTUAL_NETWORK=nginx-proxy -e VIRTUAL_PORT=3000 \
                 -e LETSENCRYPT_HOST=$TARGET_HOST -e LETSENCRYPT_EMAIL=oscardavid.hernandez.mx@gmail.com  \
