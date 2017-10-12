@@ -6,7 +6,8 @@ pipeline {
     PROD_CONTAINER_NAME = 'carpool'
     POSTGRES_CONTAINER_NAME = 'carpool-pg'
     POSTGRES_DATABASE = 'carpool_db'
-    POSTGRES_CRED = credential('prod-pg-user')
+    POSTGRES_CRED = credentials('prod-pg-user')
+    INITIAL_WORKSPACE = '$WORKSPACE'
     TARGET_HOST = 'carpool.manxdev.com'
   }
   stages {
@@ -59,7 +60,9 @@ pipeline {
         }
         script {
           try {
-            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker run \
+            /*sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME)" && \*/
+            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME) && \
+            if [ "$VAL" != "running" ]; then docker run \
             --name $POSTGRES_CONTAINER_NAME \
             -p 5432:5432 \
             -v $POSTGRES_CONTAINER_NAME:/var/lib/postgresql/data \
@@ -67,7 +70,8 @@ pipeline {
             -e POSTGRES_USER=$POSTGRES_CRED_USR \
             -e POSTGRES_PASSWORD=$POSTGRES_CRED_PSW \
             -d postgres:alpine  \
-            -d $PROD_CONTAINER_NAME"'
+            -d $PROD_CONTAINER_NAME; \
+            fi"'
           }
           catch (err) {
             sh 'echo An error ocurred'
