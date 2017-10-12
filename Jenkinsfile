@@ -58,12 +58,10 @@ pipeline {
                 sh 'echo Docker: Unexisting container: $PROD_CONTAINER_NAME'
             }
         }
-        /* Validate Postgres container is running */
         script {
           try {
             sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME)" && \
-            if [ "$VAL" != "running" ]; \
-            then docker run \
+            if [ "$VAL" != "running" ]; then docker run \
             --name $POSTGRES_CONTAINER_NAME \
             -p 5432:5432 \
             -v $POSTGRES_CONTAINER_NAME:/var/lib/postgresql/data \
@@ -72,8 +70,7 @@ pipeline {
             -e POSTGRES_PASSWORD=$POSTGRES_CRED_PSW \
             -d postgres:alpine  \
             -d $PROD_CONTAINER_NAME; \
-            fi
-            '
+            fi'
           }
           catch (err) {
             sh 'echo An error ocurred'
