@@ -15,6 +15,7 @@ router.post('/login', (req, res) => {
   var cred = _.pick(req.body, ['user', 'password']);
   // var user = new User(cred);
   if ( !cred.user || !cred.password ) return res.status(400).send({message: 'Bad input Data'});
+  var auth = ( process.env.ADMIN_USER === cred.user ) ? 'admin' : 'public';
 
   knex(TABLE_NAME).select('*').where({auth: cred.user})
   .then((storedCred) => {
@@ -28,7 +29,7 @@ router.post('/login', (req, res) => {
     return GenerateToken(cred);
   })
   .then((token) => {
-    return res.status(200).send({granted: true, token})  
+    return res.status(200).send({granted: true, token, auth})
   })
   .catch((err) => {
     console.error(err);

@@ -28,10 +28,12 @@
     function init() {
       console.log('adminController loaded');
 
-      if ( authService.data.granted !== true ) {
+      if ( authService.data.granted !== true) {
         return $location.path('/login')
       }
-
+      if ( authService.data.auth !== 'admin' ) {
+        return $location.path('/home')
+      }
 
       usersService.getUsers()
       .then(function (users) {

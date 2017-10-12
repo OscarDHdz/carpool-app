@@ -6,7 +6,8 @@
 
     var data = {
       granted: false,
-      token: null
+      token: null,
+      auth: '',
     }
 
     var LogIn = function ( credential ) {
@@ -17,9 +18,10 @@
       var resource = resourceService.getItems('login');
 
       resource.post({}, credential, function (authResponse) {
-        console.log(data);
         data.granted = authResponse.granted;
         data.token = authResponse.token;
+        data.auth = authResponse.auth;
+        console.log(data);
         deferred.resolve(true);
       }, function (err) {
         console.error(err);

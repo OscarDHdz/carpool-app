@@ -1,10 +1,11 @@
 (function () {
   'use_strict';
 
-  var navbarController =['$location', function ($location) {
+  var navbarController =['$location', 'authService', function ($location, authService) {
 
 
     var vm = this;
+    vm.auth = authService.data;
 
     vm.message = 'Hello from controller';
 
