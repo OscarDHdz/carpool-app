@@ -55,8 +55,17 @@ pipeline {
                 sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker rm -f $PROD_CONTAINER_NAME"'
             }
             catch (err) {
-                sh 'echo Docker: Unexisting container: $PROD_CONTAINER_NAME'
+                sh 'echo Docker: Unexisting container: $PROD_CONTAINER_NAME, skipping removal'
             }
+        }
+        script  {
+          try {
+            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f \'{{.State.Status}}\' $POSTGRES_CONTAINER_NAME) && \
+            echo $CONTAINER_STATE'
+          }
+          catch (err) {
+            sh 'Ther\'s no  running postgres container'
+          }
         }
         script {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'admin-app-user', usernameVariable: 'ADMIN_USER', passwordVariable: 'ADMIN_PASSWORD']]) {
