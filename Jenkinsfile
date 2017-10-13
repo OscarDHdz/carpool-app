@@ -59,25 +59,6 @@ pipeline {
             }
         }
         script {
-          try {
-            /*sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME)" && \*/
-            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f '{{.State.Status}}' $POSTGRES_CONTAINER_NAME) && \
-            if [ "$VAL" != "running" ]; then docker run \
-            --name $POSTGRES_CONTAINER_NAME \
-            -p 5432:5432 \
-            -v $POSTGRES_CONTAINER_NAME:/var/lib/postgresql/data \
-            -e POSTGRES_DB=$POSTGRES_DATABASE \
-            -e POSTGRES_USER=$POSTGRES_CRED_USR \
-            -e POSTGRES_PASSWORD=$POSTGRES_CRED_PSW \
-            -d postgres:alpine  \
-            -d $PROD_CONTAINER_NAME; \
-            fi"'
-          }
-          catch (err) {
-            sh 'echo An error ocurred'
-          }
-        }
-        script {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'admin-app-user', usernameVariable: 'ADMIN_USER', passwordVariable: 'ADMIN_PASSWORD']]) {
               withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'public-app-user', usernameVariable: 'PUBLIC_USER', passwordVariable: 'PUBLIC_PASSWORD']]) {
                 sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "docker pull $ARTIFACT_DOCKER_IMAGE && \
