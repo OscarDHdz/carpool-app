@@ -60,7 +60,7 @@ pipeline {
         }
         script  {
           try {
-            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f \"{{.State.Status}}\" $POSTGRES_CONTAINER_NAME) && \
+            sh 'ssh -i ~/.ssh/id_rsa ubuntu@manxdev.com "CONTAINER_STATE=$(docker inspect -f \'{{.State.Status}}\' $POSTGRES_CONTAINER_NAME) && \
             echo $CONTAINER_STATE"'
           }
           catch (err) {
