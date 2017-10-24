@@ -6,7 +6,7 @@ module.exports = {
     VALIDATE_DB: 'ON',
     // Select client: sqlite3 | pg
     DB_CLIENT: 'sqlite3',
-    DB_FILE: 'carpool.sqlite',
+    DB_FILE: 'carpool',
     // PostgreSQL -------------------------
     DB_HOST: 'localhost' ,
     DB_USER: 'developer',
