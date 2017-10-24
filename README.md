@@ -1,7 +1,35 @@
 # **Getting Started**
 
 ## Production (Docker Container)
-Under construction...
+This container allows you to run with a SQLite database or PostgreSQL.
+
+### SQLite Run (Quick start):
+```
+docker run -p 3000:3000 oscardhdz/carpool
+```
+By default `DB_CLIENT` is set to `sqlit3`
+
+
+### PostgreSQL Configuration:
+```
+docker run -p 3000:3000
+-e DB_CLIENT=pg \
+-e DB_HOST=$POSTGRES_CONTAINER_NAME -e DB_NAME=$POSTGRES_DATABASE \
+-e DB_USER=$POSTGRES_CRED_USR -e DB_PASWORD=$POSTGRES_CRED_PSW \
+oscardhdz/carpool
+```
+
+### Additional configurations
+
+* Credentials (Admin/Public)  
+  ```
+  -e ADMIN_USER=$ADMIN_USER -e ADMIN_PASS=$ADMIN_PASSWORD \
+  -e PUBLIC_USER=$PUBLIC_USER -e PUBLIC_PASS=$PUBLIC_PASSWORD \
+  ```
+* SQLite database PATH  
+  SQLite database file is stored at _/home/app/database/*.sqlite_
+
+
 
 ## Development (Standalone Web Service)
 ### Quick setup
